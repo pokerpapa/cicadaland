@@ -17,7 +17,7 @@ export function ContactSection() {
         <div className="bg-[#0B1026] border border-[#1F2A44] rounded-3xl overflow-hidden">
           <div className="grid lg:grid-cols-2">
             {/* Contact Info */}
-            <div className="p-8 lg:p-12 bg-gradient-to-br from-[#3B82F6]/10 to-transparent">
+            <div className="p-6 sm:p-10 lg:p-12 bg-gradient-to-br from-[#3B82F6]/10 to-transparent">
               <span className="inline-block px-4 py-2 rounded-full bg-[#3B82F6]/10 border border-[#3B82F6]/20 text-[#3B82F6] text-sm font-medium mb-6">
                 {t("contact.badge")}
               </span>
@@ -61,8 +61,8 @@ export function ContactSection() {
             </div>
 
             {/* CTA Box */}
-            <div className="p-8 lg:p-12 flex flex-col justify-center items-center text-center bg-[#070B1A]/50">
-              <div className="w-16 h-16 rounded-2xl bg-[#3B82F6] flex items-center justify-center mb-6 shadow-lg shadow-[#3B82F6]/20">
+            <div className="p-6 sm:p-10 lg:p-12 flex flex-col justify-center items-center text-center bg-[#070B1A]/50">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#3B82F6] flex items-center justify-center mb-6 shadow-lg shadow-[#3B82F6]/20">
                 <Send className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-2xl font-bold text-[#E5E7EB] mb-4">

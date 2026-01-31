@@ -66,15 +66,15 @@ export function AppsSection() {
           </p>
         </div>
 
-        {/* Platform Tabs */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
+        {/* Platform Tabs - Scrollable on mobile */}
+        <div className="flex overflow-x-auto pb-4 sm:pb-0 sm:flex-wrap justify-start sm:justify-center gap-3 mb-12 no-scrollbar px-2 sm:px-0">
           {platforms.map((platform) => (
             <button
               key={platform.id}
               onClick={() => setActiveTab(platform.id)}
-              className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all ${activeTab === platform.id
-                  ? "bg-[#3B82F6] text-white shadow-lg shadow-[#3B82F6]/30"
-                  : "bg-[#0B1026] border border-[#1F2A44] text-[#94A3B8] hover:text-[#E5E7EB] hover:border-[#3B82F6]/30"
+              className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all whitespace-nowrap shrink-0 ${activeTab === platform.id
+                ? "bg-[#3B82F6] text-white shadow-lg shadow-[#3B82F6]/30"
+                : "bg-[#0B1026] border border-[#1F2A44] text-[#94A3B8] hover:text-[#E5E7EB] hover:border-[#3B82F6]/30"
                 }`}
             >
               <platform.icon className="w-5 h-5" />

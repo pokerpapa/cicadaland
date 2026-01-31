@@ -18,7 +18,7 @@ const translations: Record<Language, TranslationDict> = {
       openBot: "Open Telegram Bot",
     },
     hero: {
-      badge: "Currently active: 300+ servers in dozens of countries worldwide",
+      badge: "Currently active: 300+ servers in dozens of countries worldwide — bypass any blocking types",
       title1: "PROVPN — Fast & ",
       title2: "Stable VPN",
       ctaStart: "Open Telegram Bot",
@@ -251,7 +251,7 @@ const translations: Record<Language, TranslationDict> = {
       openBot: "Открыть бота",
     },
     hero: {
-      badge: "Сейчас активно: 300+ серверов в десятках стран мира",
+      badge: "Сейчас активно: 300+ серверов в десятках стран мира — обходи любые типы блокировок",
       title1: "PROVPN — быстрый и ",
       title2: "стабильный VPN",
       ctaStart: "Открыть Telegram бота",

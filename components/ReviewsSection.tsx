@@ -31,11 +31,11 @@ export function ReviewsSection() {
         </div>
 
         {/* Reviews Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {reviews.map((review: any, index: number) => (
             <div
               key={index}
-              className="group relative bg-[#0B1026] border border-[#1F2A44] rounded-2xl p-6 lg:p-8 hover:border-[#3B82F6]/30 transition-all duration-300"
+              className="group relative bg-[#0B1026] border border-[#1F2A44] rounded-2xl p-6 sm:p-8 hover:border-[#3B82F6]/30 transition-all duration-300"
             >
               {/* Quote Icon */}
               <Quote className="absolute top-6 right-6 w-8 h-8 text-[#1F2A44] group-hover:text-[#3B82F6]/30 transition-colors" />

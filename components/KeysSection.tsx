@@ -41,7 +41,7 @@ export function KeysSection() {
           <h3 className="text-2xl font-bold text-[#E5E7EB] mb-8 text-center">
             {t("technology.modernTech.title")}
           </h3>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {modernTechItems.map((item: any, index: number) => {
               const Icon = modernTechIcons[index]
               return (
@@ -74,7 +74,7 @@ export function KeysSection() {
           <h3 className="text-2xl font-bold text-[#E5E7EB] mb-8 text-center">
             {t("technology.maxProtection.title")}
           </h3>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {maxProtectionItems.map((item: any, index: number) => {
               const Icon = maxProtectionIcons[index]
               return (
@@ -85,7 +85,7 @@ export function KeysSection() {
                   {/* Glow Effect */}
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-[#22C55E] to-[#3B82F6] rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-300" />
 
-                  <div className="relative bg-[#0B1026] border border-[#1F2A44] rounded-2xl p-8 hover:border-[#22C55E]/50 transition-all duration-300 h-full">
+                  <div className="relative bg-[#0B1026] border border-[#1F2A44] rounded-2xl p-6 sm:p-8 hover:border-[#22C55E]/50 transition-all duration-300 h-full">
                     <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#22C55E]/20 to-[#3B82F6]/20 flex items-center justify-center mb-5">
                       <Icon className="w-7 h-7 text-[#22C55E]" />
                     </div>

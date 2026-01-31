@@ -58,9 +58,13 @@ export function Header() {
               PRO<span className="text-[#3B82F6]">VPN</span>
             </span>
             {/* Country Flags - Global Presence */}
-            <div className="hidden lg:flex items-center gap-2 ml-4 opacity-80 bg-[#1F2A44]/30 px-3 py-1.5 rounded-full border border-[#1F2A44]/50">
-              {countryFlags.map((code) => (
-                <div key={code} className="relative w-5 h-3.5 overflow-hidden rounded-sm hover:scale-110 transition-transform shadow-sm" title={code.toUpperCase()}>
+            <div className="flex items-center gap-1.5 sm:gap-2 ml-2 sm:ml-4 opacity-80 bg-[#1F2A44]/30 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full border border-[#1F2A44]/50">
+              {countryFlags.map((code, index) => (
+                <div
+                  key={code}
+                  className={`relative w-4 h-3 sm:w-5 sm:h-3.5 overflow-hidden rounded-sm hover:scale-110 transition-transform shadow-sm ${index > 3 ? "hidden sm:block" : ""}`}
+                  title={code.toUpperCase()}
+                >
                   <img
                     src={`https://flagcdn.com/w40/${code}.png`}
                     srcSet={`https://flagcdn.com/w80/${code}.png 2x`}
@@ -69,7 +73,7 @@ export function Header() {
                   />
                 </div>
               ))}
-              <span className="text-[10px] text-[#94A3B8] ml-1 font-medium">+24</span>
+              <span className="text-[9px] sm:text-[10px] text-[#94A3B8] ml-0.5 sm:ml-1 font-medium">+24</span>
             </div>
           </a>
 
@@ -127,24 +131,25 @@ export function Header() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-[#0B1026]/95 backdrop-blur-xl border-b border-[#1F2A44]">
-          <nav className="flex flex-col px-4 py-4 gap-1">
+        <div className="md:hidden bg-[#0B1026]/98 backdrop-blur-2xl border-b border-[#1F2A44] animate-in slide-in-from-top duration-300">
+          <nav className="flex flex-col px-6 py-8 gap-2">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="px-4 py-3 text-[#94A3B8] hover:text-[#E5E7EB] transition-colors rounded-lg hover:bg-[#1F2A44]/50"
+                className="px-4 py-4 text-lg font-medium text-[#94A3B8] hover:text-[#3B82F6] transition-all rounded-xl hover:bg-[#3B82F6]/5 active:scale-95"
               >
                 {link.label}
               </a>
             ))}
+            <div className="h-px bg-[#1F2A44] my-4 mx-4" />
             <Button
               asChild
-              className="mt-3 bg-[#3B82F6] hover:bg-[#2563EB] text-white font-medium rounded-xl h-12"
+              className="bg-[#3B82F6] hover:bg-[#2563EB] text-white font-semibold rounded-2xl h-14 text-lg shadow-lg shadow-[#3B82F6]/20 transition-all active:scale-95"
             >
               <a href="https://t.me/PROVPN_SecureBot" target="_blank" rel="noopener noreferrer">
-                <Zap className="w-4 h-4 mr-2" />
+                <Zap className="w-5 h-5 mr-3" />
                 {t("nav.openBot")}
               </a>
             </Button>

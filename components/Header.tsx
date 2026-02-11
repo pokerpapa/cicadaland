@@ -47,10 +47,10 @@ export function Header() {
               <div className="absolute inset-0 bg-[#3B82F6]/20 blur-lg rounded-full group-hover:bg-[#3B82F6]/30 transition-colors" />
               <div className="relative w-10 h-10 overflow-hidden rounded-xl border border-[#1F2A44] bg-[#0B1026]">
                 <Image
-                  src="/assets/welcome.jpg"
+                  src="/logo.svg"
                   alt="PROVPN Logo"
                   fill
-                  className="object-cover"
+                  className="p-1.5"
                 />
               </div>
             </div>

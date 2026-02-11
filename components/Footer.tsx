@@ -19,17 +19,7 @@ export function Footer() {
             © {new Date().getFullYear()} PROVPN. {t("footer.rights")}
           </p>
 
-          <div className="flex items-center gap-1 text-sm text-[#94A3B8]">
-            <span>{t("footer.builtBy")}</span>
-            <a
-              href="#"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[#E5E7EB] hover:text-[#3B82F6] transition-colors"
-            >
-              v0
-            </a>
-          </div>
+
         </div>
       </div>
     </footer>

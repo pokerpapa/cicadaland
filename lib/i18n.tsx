@@ -239,7 +239,6 @@ const translations: Record<Language, TranslationDict> = {
     },
     footer: {
       rights: "All rights reserved.",
-      builtBy: "Built with care by",
     },
   },
   ru: {
@@ -472,7 +471,6 @@ const translations: Record<Language, TranslationDict> = {
     },
     footer: {
       rights: "Все права защищены.",
-      builtBy: "Сделано с любовью в",
     },
   },
 }

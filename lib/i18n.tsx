@@ -41,7 +41,7 @@ const translations: Record<Language, TranslationDict> = {
         },
         {
           question: "What capabilities does PROVPN offer?",
-          answer: "The bot allows you to access VPN connections in various countries, bypass blocking of sites and applications, and protect traffic when using public Wi-Fi networks.",
+          answer: "The bot allows you to access VPN connections in various countries, bypass any type of blocking (including whitelists) of sites and applications, and protect traffic when using public Wi-Fi networks.",
         },
         {
           question: "How do I start using PROVPN?",
@@ -131,7 +131,7 @@ const translations: Record<Language, TranslationDict> = {
         windows: {
           name: "Windows",
           appName: "Hiddify",
-          appLink: "https://github.com/hiddify/hiddify-next/releases",
+          appLink: "https://github.com/hiddify/hiddify-app/releases/latest/download/Hiddify-Windows-Setup-x64.Msix",
           videoPath: "/assets/windows.mp4",
           steps: [
             "Download Hiddify from GitHub or official site",
@@ -274,7 +274,7 @@ const translations: Record<Language, TranslationDict> = {
         },
         {
           question: "Какие возможности и функционал у «PROVPN»?",
-          answer: "Бот позволяет получать доступ к VPN-подключениям в разных странах, обойти блокировки сайтов и приложений, а также защитить трафик при использовании общедоступных Wi-Fi сетей.",
+          answer: "Бот позволяет получать доступ к VPN-подключениям в разных странах, обойти любые типы блокировок (включая «белые списки») сайтов и приложений, а также защитить трафик при использовании общедоступных Wi-Fi сетей.",
         },
         {
           question: "С чего начать работу с ботом «PROVPN»?",
@@ -364,7 +364,7 @@ const translations: Record<Language, TranslationDict> = {
         windows: {
           name: "Windows",
           appName: "Hiddify",
-          appLink: "https://github.com/hiddify/hiddify-next/releases",
+          appLink: "https://github.com/hiddify/hiddify-app/releases/latest/download/Hiddify-Windows-Setup-x64.Msix",
           videoPath: "/assets/windows.mp4",
           steps: [
             "Скачайте Hiddify с GitHub или оф. сайта",

@@ -1,6 +1,6 @@
 "use client"
 
-import { MessageCircle, Mail, MapPin, Send } from "lucide-react"
+import { MessageCircle, Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTranslation } from "@/lib/i18n"
 
@@ -36,24 +36,12 @@ export function ContactSection() {
                   <div>
                     <p className="text-sm text-[#94A3B8] mb-0.5">{t("contact.telegram")}</p>
                     <a
-                      href="#"
+                      href="https://t.me/PROVPN_SecureBot"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="text-[#E5E7EB] hover:text-[#3B82F6] font-medium transition-colors"
                     >
-                      @PROVPN_Support
-                    </a>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-[#0B1026] border border-[#1F2A44] flex items-center justify-center">
-                    <Mail className="w-5 h-5 text-[#3B82F6]" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-[#94A3B8] mb-0.5">{t("contact.email")}</p>
-                    <a
-                      href="mailto:support@provpn.example"
-                      className="text-[#E5E7EB] hover:text-[#3B82F6] font-medium transition-colors"
-                    >
-                      support@provpn.example
+                      @PROVPN_SecureBot
                     </a>
                   </div>
                 </div>

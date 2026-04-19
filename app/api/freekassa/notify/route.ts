@@ -31,10 +31,18 @@ export async function POST(request: Request) {
     const amount = String(formData.get("AMOUNT") || "");
     const orderId = String(formData.get("MERCHANT_ORDER_ID") || "");
     const sign = String(formData.get("SIGN") || "");
+    const intid = String(formData.get("intid") || "");
+    const email = String(formData.get("P_EMAIL") || "");
+    const phone = String(formData.get("P_PHONE") || "");
+    const curId = String(formData.get("CUR_ID") || "");
+    const payerAccount = String(formData.get("payer_account") || "");
+    const commission = String(formData.get("commission") || "");
 
     const secret2 = process.env.FREEKASSA_SECRET_2 || "";
+    const internalApiUrl = process.env.INTERNAL_API_URL || "";
+    const internalApiToken = process.env.INTERNAL_API_TOKEN || "";
 
-    if (!secret2) {
+    if (!secret2 || !internalApiUrl || !internalApiToken) {
       return new Response("server misconfigured", { status: 500 });
     }
 
@@ -44,12 +52,32 @@ export async function POST(request: Request) {
       return new Response("wrong sign", { status: 400 });
     }
 
-    console.log("FreeKassa payment confirmed", {
-      merchantId,
-      amount,
-      orderId,
-      ip,
+    const internalResponse = await fetch(internalApiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Internal-Token": internalApiToken,
+      },
+      body: JSON.stringify({
+        merchant_id: merchantId,
+        amount,
+        order_id: orderId,
+        sign,
+        intid,
+        email,
+        phone,
+        cur_id: curId,
+        payer_account: payerAccount,
+        commission,
+        source_ip: ip,
+      }),
     });
+
+    if (!internalResponse.ok) {
+      const text = await internalResponse.text();
+      console.error("VPS internal API error:", internalResponse.status, text);
+      return new Response("internal processing error", { status: 500 });
+    }
 
     return new Response("YES", {
       status: 200,

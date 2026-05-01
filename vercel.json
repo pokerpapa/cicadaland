@@ -4,6 +4,10 @@
     {
       "source": "/sub/:path*",
       "destination": "http://5.35.46.87:8091/sub/:path*"
+    },
+    {
+      "source": "/api/:path*",
+      "destination": "http://5.35.46.87:8091/api/:path*"
     }
   ]
 }

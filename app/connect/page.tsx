@@ -30,6 +30,7 @@ type WebAppResponse = {
 
 type InstallScreen = "smartphone" | "windows" | "tv"
 type SelectedApp = "happ" | "incy"
+type SelectedMode = "global" | "steady"
 
 type AppDownloadLink = {
   label: string
@@ -143,11 +144,14 @@ export default function ConnectPage() {
   const [loading, setLoading] = useState(true)
   const [copiedMode, setCopiedMode] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [notice, setNotice] = useState<string | null>(null)
   const [telegramScriptLoaded, setTelegramScriptLoaded] = useState(false)
 
   const [installScreen, setInstallScreen] = useState<InstallScreen | null>(null)
   const [selectedApp, setSelectedApp] = useState<SelectedApp>("happ")
   const [installStep, setInstallStep] = useState<1 | 2>(1)
+  const [selectedMode, setSelectedMode] = useState<SelectedMode>("global")
+  const [manualLinkVisible, setManualLinkVisible] = useState(false)
 
   useEffect(() => {
     if (!telegramScriptLoaded) return
@@ -218,7 +222,19 @@ export default function ConnectPage() {
     [links]
   )
 
+  const selectedInstallLink = selectedMode === "global" ? globalLink : steadyLink
+  const selectedModeTitle = selectedMode === "global" ? "GLOBAL MODE" : "STEADY MODE"
+  const selectedModeSubtitle =
+    selectedMode === "global"
+      ? "Черный список · быстрый режим"
+      : "Белый список · устойчивый режим"
+
   const appLinks = selectedApp === "happ" ? HAPP_LINKS : INCY_LINKS
+
+  function showNotice(message: string) {
+    setNotice(message)
+    setTimeout(() => setNotice(null), 3500)
+  }
 
   function openExternal(url: string) {
     if (typeof window === "undefined") return
@@ -237,33 +253,110 @@ export default function ConnectPage() {
     setInstallScreen("smartphone")
     setSelectedApp("happ")
     setInstallStep(1)
+    setSelectedMode("global")
+    setManualLinkVisible(false)
+    setNotice(null)
   }
 
   function openWindowsInstall() {
     setInstallScreen("windows")
     setInstallStep(1)
+    setManualLinkVisible(false)
+    setNotice(null)
   }
 
   function openTvInstall() {
     setInstallScreen("tv")
     setInstallStep(1)
+    setManualLinkVisible(false)
+    setNotice(null)
   }
 
   function closeInstall() {
     setInstallScreen(null)
     setInstallStep(1)
+    setManualLinkVisible(false)
+    setNotice(null)
+  }
+
+  async function copyTextToClipboard(text: string) {
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text)
+        return true
+      }
+
+      const textarea = document.createElement("textarea")
+      textarea.value = text
+      textarea.setAttribute("readonly", "true")
+      textarea.style.position = "fixed"
+      textarea.style.opacity = "0"
+      document.body.appendChild(textarea)
+      textarea.select()
+      const ok = document.execCommand("copy")
+      document.body.removeChild(textarea)
+      return ok
+    } catch {
+      return false
+    }
   }
 
   async function copyLink(link?: WebAppLink) {
     if (!link?.url) return
 
-    try {
-      await navigator.clipboard.writeText(link.url)
+    const ok = await copyTextToClipboard(link.url)
+
+    if (ok) {
       setCopiedMode(link.mode)
+      setManualLinkVisible(false)
       setTimeout(() => setCopiedMode(null), 1800)
-    } catch {
-      setError("Не удалось скопировать ссылку. Зажмите и скопируйте вручную.")
+      return
     }
+
+    setManualLinkVisible(true)
+    setError("Не удалось скопировать ссылку автоматически. Скопируйте её вручную.")
+  }
+
+  async function copySelectedLink() {
+    if (!selectedInstallLink?.url) return
+
+    const ok = await copyTextToClipboard(selectedInstallLink.url)
+
+    if (ok) {
+      setCopiedMode(selectedInstallLink.mode)
+      setManualLinkVisible(false)
+      showNotice(`${selectedModeTitle}: ссылка скопирована ✅`)
+      setTimeout(() => setCopiedMode(null), 1800)
+      return
+    }
+
+    setManualLinkVisible(true)
+    setError("Не удалось скопировать ссылку автоматически. Скопируйте её вручную.")
+  }
+
+  async function autoSetup(app: SelectedApp) {
+    if (!selectedInstallLink?.url || !data?.can_use_vpn) return
+
+    const appName = app === "happ" ? "Happ" : "INCY"
+    const appScheme = app === "happ" ? "happ" : "incy"
+
+    const subscriptionUrl = selectedInstallLink.url
+    const deepLink = `${appScheme}://add/${subscriptionUrl}`
+    const redirectUrl = `/redirect_app?target=${encodeURIComponent(deepLink)}`
+
+    const ok = await copyTextToClipboard(subscriptionUrl)
+
+    if (ok) {
+      setCopiedMode(selectedInstallLink.mode)
+      setManualLinkVisible(false)
+      showNotice(`Ссылка ${selectedModeTitle} скопирована. Открываем ${appName}...`)
+      setTimeout(() => setCopiedMode(null), 1800)
+    } else {
+      setManualLinkVisible(true)
+      showNotice(`Открываем ${appName}. Если нужно — скопируйте ссылку вручную ниже.`)
+    }
+
+    window.location.href = redirectUrl
   }
 
   return (
@@ -496,7 +589,11 @@ export default function ConnectPage() {
                     </button>
 
                     <button
-                      onClick={() => setInstallStep(2)}
+                      onClick={() => {
+                        setInstallStep(2)
+                        setManualLinkVisible(false)
+                        setNotice(null)
+                      }}
                       className="rounded-2xl bg-blue-600 px-6 py-4 font-bold shadow-lg shadow-blue-600/30"
                     >
                       Шаг 2 →
@@ -508,7 +605,7 @@ export default function ConnectPage() {
               {installScreen === "smartphone" && installStep === 2 && (
                 <section className="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
                   <div className="flex items-center justify-between gap-3">
-                    <h2 className="text-lg font-bold">Добавление подписки</h2>
+                    <h2 className="text-lg font-bold">Установка на Смартфон</h2>
                     <button
                       onClick={closeInstall}
                       className="rounded-full bg-red-500/15 px-3 py-1 text-sm font-bold text-red-300"
@@ -519,39 +616,114 @@ export default function ConnectPage() {
 
                   <div className="mt-4 rounded-2xl border border-emerald-400/20 bg-emerald-500/10 p-4">
                     <p className="text-sm leading-6 text-emerald-50/90">
-                      Откройте установленное приложение и добавьте ссылку как{" "}
-                      <span className="font-bold text-emerald-300">Subscription</span>.
-                      Сначала скопируйте подходящий режим ниже.
+                      Откройте установленное приложение и нажмите{" "}
+                      <span className="font-bold text-emerald-300">«Авто-настройка»</span>.
+                      Ссылка будет скопирована автоматически.
                     </p>
                   </div>
 
-                  <div className="mt-4 space-y-3">
+                  <div className="mt-4">
+                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-white/45">
+                      Выберите режим
+                    </p>
+
+                    <div className="grid grid-cols-2 gap-2 rounded-2xl bg-black/25 p-1">
+                      <button
+                        onClick={() => {
+                          setSelectedMode("global")
+                          setManualLinkVisible(false)
+                          setNotice(null)
+                        }}
+                        className={`rounded-xl px-4 py-3 text-sm font-bold transition ${
+                          selectedMode === "global" ? "bg-emerald-600 text-white" : "text-white/45"
+                        }`}
+                      >
+                        ⬛ GLOBAL
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          setSelectedMode("steady")
+                          setManualLinkVisible(false)
+                          setNotice(null)
+                        }}
+                        className={`rounded-xl px-4 py-3 text-sm font-bold transition ${
+                          selectedMode === "steady" ? "bg-slate-600 text-white" : "text-white/45"
+                        }`}
+                      >
+                        ⬜ STEADY
+                      </button>
+                    </div>
+
+                    <p className="mt-2 text-xs text-white/45">{selectedModeSubtitle}</p>
+                  </div>
+
+                  <div className="mt-4 overflow-hidden rounded-2xl bg-black/25">
                     <button
-                      disabled={!globalLink || !data?.can_use_vpn}
-                      onClick={() => copyLink(globalLink)}
-                      className="w-full rounded-2xl bg-emerald-600 px-4 py-4 text-left font-bold shadow-lg disabled:cursor-not-allowed disabled:bg-slate-700 disabled:opacity-55"
+                      disabled={!selectedInstallLink || !data?.can_use_vpn}
+                      onClick={() => autoSetup("happ")}
+                      className="flex w-full items-center gap-3 border-b border-white/10 px-4 py-4 text-left font-bold transition hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-50"
                     >
-                      Скопировать GLOBAL
-                      <span className="block pt-1 text-sm font-normal text-white/75">
-                        {copiedMode === "black_vless"
-                          ? "Ссылка скопирована ✅"
-                          : "Черный список · быстрый режим"}
+                      <span className="text-xl">🅷</span>
+                      <span>
+                        <span className="block">Авто-настройка Happ</span>
+                        <span className="block text-xs font-normal text-white/40">
+                          Скопируем ссылку и откроем приложение
+                        </span>
                       </span>
                     </button>
 
                     <button
-                      disabled={!steadyLink || !data?.can_use_vpn}
-                      onClick={() => copyLink(steadyLink)}
-                      className="w-full rounded-2xl bg-slate-700 px-4 py-4 text-left font-bold shadow-lg disabled:cursor-not-allowed disabled:bg-slate-700 disabled:opacity-55"
+                      disabled={!selectedInstallLink || !data?.can_use_vpn}
+                      onClick={() => autoSetup("incy")}
+                      className="flex w-full items-center gap-3 border-b border-white/10 px-4 py-4 text-left font-bold transition hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-50"
                     >
-                      Скопировать STEADY
-                      <span className="block pt-1 text-sm font-normal text-white/75">
-                        {copiedMode === "white_mobile"
-                          ? "Ссылка скопирована ✅"
-                          : "Белый список · устойчивый режим"}
+                      <span className="text-xl">🟩</span>
+                      <span>
+                        <span className="block">Авто-настройка INCY</span>
+                        <span className="block text-xs font-normal text-white/40">
+                          Скопируем ссылку и откроем приложение
+                        </span>
+                      </span>
+                    </button>
+
+                    <button
+                      disabled={!selectedInstallLink || !data?.can_use_vpn}
+                      onClick={copySelectedLink}
+                      className="flex w-full items-center gap-3 px-4 py-4 text-left font-bold transition hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      <span className="text-xl">🔗</span>
+                      <span>
+                        <span className="block">Скопировать ссылку</span>
+                        <span className="block text-xs font-normal text-white/40">
+                          {selectedModeTitle}
+                        </span>
                       </span>
                     </button>
                   </div>
+
+                  {notice && (
+                    <p className="mt-4 whitespace-pre-line rounded-2xl bg-blue-500/10 p-3 text-sm text-blue-100/90">
+                      {notice}
+                    </p>
+                  )}
+
+                  {copiedMode === selectedInstallLink?.mode && (
+                    <p className="mt-4 rounded-2xl bg-emerald-500/10 p-3 text-sm text-emerald-100/90">
+                      Ссылка скопирована ✅
+                    </p>
+                  )}
+
+                  {manualLinkVisible && selectedInstallLink?.url && (
+                    <div className="mt-4 rounded-2xl border border-white/10 bg-black/30 p-4">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-white/40">
+                        Ссылка для ручного копирования
+                      </p>
+                      <p className="mt-2 break-all text-sm leading-6 text-white/80">
+                        {selectedInstallLink.url}
+                      </p>
+                    </div>
+                  )}
 
                   {!data?.can_use_vpn && (
                     <p className="mt-4 rounded-2xl bg-red-500/10 p-3 text-sm text-red-100/80">
@@ -561,15 +733,19 @@ export default function ConnectPage() {
 
                   <div className="mt-5 flex items-center justify-between gap-3">
                     <button
-                      onClick={() => setInstallStep(1)}
+                      onClick={() => {
+                        setInstallStep(1)
+                        setManualLinkVisible(false)
+                        setNotice(null)
+                      }}
                       className="rounded-2xl px-4 py-3 text-left font-bold text-blue-300"
                     >
-                      ← Шаг 1
+                      ← Назад
                     </button>
 
                     <button
                       onClick={closeInstall}
-                      className="rounded-2xl bg-white/10 px-6 py-4 font-bold"
+                      className="rounded-2xl bg-blue-600 px-6 py-4 font-bold shadow-lg shadow-blue-600/30"
                     >
                       Готово
                     </button>

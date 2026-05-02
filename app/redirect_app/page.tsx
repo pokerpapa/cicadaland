@@ -1,13 +1,13 @@
 "use client"
 
-import { useEffect, useMemo } from "react"
+import { Suspense, useEffect, useMemo } from "react"
 import { useSearchParams } from "next/navigation"
 
 function isAllowedTarget(target: string) {
   return target.startsWith("happ://add/") || target.startsWith("incy://add/")
 }
 
-export default function RedirectAppPage() {
+function RedirectAppContent() {
   const searchParams = useSearchParams()
   const rawTarget = searchParams.get("target") || ""
 
@@ -19,7 +19,7 @@ export default function RedirectAppPage() {
     }
   }, [rawTarget])
 
-  const isValid = target && isAllowedTarget(target)
+  const isValid = Boolean(target && isAllowedTarget(target))
 
   useEffect(() => {
     if (!isValid) return
@@ -72,5 +72,22 @@ export default function RedirectAppPage() {
         )}
       </div>
     </main>
+  )
+}
+
+export default function RedirectAppPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="min-h-screen bg-[#fff5f5] px-5 py-10 text-[#171717]">
+          <div className="mx-auto flex min-h-[70vh] max-w-md flex-col items-center justify-center text-center">
+            <h1 className="text-2xl font-bold">Открываем приложение...</h1>
+            <p className="mt-4 text-sm text-black/60">Пожалуйста, подождите</p>
+          </div>
+        </main>
+      }
+    >
+      <RedirectAppContent />
+    </Suspense>
   )
 }

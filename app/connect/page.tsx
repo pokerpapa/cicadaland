@@ -342,7 +342,13 @@ export default function ConnectPage() {
 
     const subscriptionUrl = selectedInstallLink.url
     const deepLink = `${appScheme}://add/${subscriptionUrl}`
-    const redirectUrl = `/redirect_app?target=${encodeURIComponent(deepLink)}`
+
+    const origin =
+      typeof window !== "undefined"
+        ? window.location.origin
+        : "https://cicadaland.vercel.app"
+
+    const redirectUrl = `${origin}/redirect_app?target=${encodeURIComponent(deepLink)}`
 
     const ok = await copyTextToClipboard(subscriptionUrl)
 
@@ -354,6 +360,13 @@ export default function ConnectPage() {
     } else {
       setManualLinkVisible(true)
       showNotice(`Открываем ${appName}. Если нужно — скопируйте ссылку вручную ниже.`)
+    }
+
+    const webApp = typeof window !== "undefined" ? window.Telegram?.WebApp : undefined
+
+    if (webApp?.openLink) {
+      webApp.openLink(redirectUrl)
+      return
     }
 
     window.location.href = redirectUrl

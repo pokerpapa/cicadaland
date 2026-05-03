@@ -223,12 +223,6 @@ export default function ConnectPage() {
   )
 
   const selectedInstallLink = selectedMode === "global" ? globalLink : steadyLink
-  const selectedModeTitle = selectedMode === "global" ? "GLOBAL MODE" : "STEADY MODE"
-  const selectedModeSubtitle =
-    selectedMode === "global"
-      ? "Черный список · быстрый режим"
-      : "Белый список · устойчивый режим"
-
   const appLinks = selectedApp === "happ" ? HAPP_LINKS : INCY_LINKS
 
   function showNotice(message: string) {
@@ -317,15 +311,20 @@ export default function ConnectPage() {
     setError("Не удалось скопировать ссылку автоматически. Скопируйте её вручную.")
   }
 
-  async function copySelectedLink() {
-    if (!selectedInstallLink?.url) return
+  async function copyModeLink(mode: SelectedMode) {
+    const link = mode === "global" ? globalLink : steadyLink
+    const modeTitle = mode === "global" ? "GLOBAL MODE" : "STEADY MODE"
 
-    const ok = await copyTextToClipboard(selectedInstallLink.url)
+    if (!link?.url) return
+
+    setSelectedMode(mode)
+
+    const ok = await copyTextToClipboard(link.url)
 
     if (ok) {
-      setCopiedMode(selectedInstallLink.mode)
+      setCopiedMode(link.mode)
       setManualLinkVisible(false)
-      showNotice(`${selectedModeTitle}: ссылка скопирована ✅`)
+      showNotice(`${modeTitle}: ссылка скопирована ✅`)
       setTimeout(() => setCopiedMode(null), 1800)
       return
     }
@@ -334,13 +333,18 @@ export default function ConnectPage() {
     setError("Не удалось скопировать ссылку автоматически. Скопируйте её вручную.")
   }
 
-  async function autoSetup(app: SelectedApp) {
-    if (!selectedInstallLink?.url || !data?.can_use_vpn) return
+  async function autoSetup(app: SelectedApp, mode: SelectedMode) {
+    const link = mode === "global" ? globalLink : steadyLink
+
+    if (!link?.url || !data?.can_use_vpn) return
+
+    setSelectedMode(mode)
 
     const appName = app === "happ" ? "Happ" : "INCY"
     const appScheme = app === "happ" ? "happ" : "incy"
 
-    const subscriptionUrl = selectedInstallLink.url
+    const modeTitle = mode === "global" ? "GLOBAL MODE" : "STEADY MODE"
+    const subscriptionUrl = link.url
     const deepLink = `${appScheme}://add/${subscriptionUrl}`
 
     const origin =
@@ -353,9 +357,9 @@ export default function ConnectPage() {
     const ok = await copyTextToClipboard(subscriptionUrl)
 
     if (ok) {
-      setCopiedMode(selectedInstallLink.mode)
+      setCopiedMode(link.mode)
       setManualLinkVisible(false)
-      showNotice(`Ссылка ${selectedModeTitle} скопирована. Открываем ${appName}...`)
+      showNotice(`Ссылка ${modeTitle} скопирована. Открываем ${appName}...`)
       setTimeout(() => setCopiedMode(null), 1800)
     } else {
       setManualLinkVisible(true)
@@ -551,7 +555,7 @@ export default function ConnectPage() {
                       <span className="font-bold text-emerald-300">скачайте приложение</span>{" "}
                       на ваш телефон, затем перейдите на{" "}
                       <span className="font-bold text-emerald-300">Шаг 2</span> и добавьте
-                      подписку.
+                      подписки.
                     </p>
                   </div>
 
@@ -629,89 +633,92 @@ export default function ConnectPage() {
 
                   <div className="mt-4 rounded-2xl border border-emerald-400/20 bg-emerald-500/10 p-4">
                     <p className="text-sm leading-6 text-emerald-50/90">
-                      Откройте установленное приложение и нажмите{" "}
-                      <span className="font-bold text-emerald-300">«Авто-настройка»</span>.
-                      Ссылка будет скопирована автоматически.
+                      Откройте установленное приложение и добавьте обе подписки по очереди.
+                      Сначала чёрный список, затем белый список.
                     </p>
                   </div>
 
-                  <div className="mt-4">
-                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-white/45">
-                      Выберите режим
+                  <div className="mt-4 rounded-2xl border border-blue-400/20 bg-blue-500/10 p-4">
+                    <p className="text-sm leading-6 text-blue-50/90">
+                      Рекомендуем добавить обе подписки:
+                      сначала <span className="font-bold text-emerald-300"> чёрный список</span>,
+                      затем <span className="font-bold text-slate-200"> белый список</span>.
                     </p>
-
-                    <div className="grid grid-cols-2 gap-2 rounded-2xl bg-black/25 p-1">
-                      <button
-                        onClick={() => {
-                          setSelectedMode("global")
-                          setManualLinkVisible(false)
-                          setNotice(null)
-                        }}
-                        className={`rounded-xl px-4 py-3 text-sm font-bold transition ${
-                          selectedMode === "global" ? "bg-emerald-600 text-white" : "text-white/45"
-                        }`}
-                      >
-                        ⬛ GLOBAL
-                      </button>
-
-                      <button
-                        onClick={() => {
-                          setSelectedMode("steady")
-                          setManualLinkVisible(false)
-                          setNotice(null)
-                        }}
-                        className={`rounded-xl px-4 py-3 text-sm font-bold transition ${
-                          selectedMode === "steady" ? "bg-slate-600 text-white" : "text-white/45"
-                        }`}
-                      >
-                        ⬜ STEADY
-                      </button>
-                    </div>
-
-                    <p className="mt-2 text-xs text-white/45">{selectedModeSubtitle}</p>
                   </div>
 
                   <div className="mt-4 overflow-hidden rounded-2xl bg-black/25">
                     <button
-                      disabled={!selectedInstallLink || !data?.can_use_vpn}
-                      onClick={() => autoSetup("happ")}
+                      disabled={!globalLink || !data?.can_use_vpn}
+                      onClick={() => autoSetup("happ", "global")}
                       className="flex w-full items-center gap-3 border-b border-white/10 px-4 py-4 text-left font-bold transition hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-50"
                     >
-                      <span className="text-xl">🅷</span>
+                      <span className="text-xl">⬛</span>
                       <span>
-                        <span className="block">Авто-настройка Happ</span>
+                        <span className="block">Happ — ЧЁРНЫЙ СПИСОК</span>
                         <span className="block text-xs font-normal text-white/40">
-                          Скопируем ссылку и откроем приложение
+                          GLOBAL MODE · быстрый режим
                         </span>
                       </span>
                     </button>
 
                     <button
-                      disabled={!selectedInstallLink || !data?.can_use_vpn}
-                      onClick={() => autoSetup("incy")}
+                      disabled={!steadyLink || !data?.can_use_vpn}
+                      onClick={() => autoSetup("happ", "steady")}
                       className="flex w-full items-center gap-3 border-b border-white/10 px-4 py-4 text-left font-bold transition hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-50"
                     >
-                      <span className="text-xl">🟩</span>
+                      <span className="text-xl">⬜</span>
                       <span>
-                        <span className="block">Авто-настройка INCY</span>
+                        <span className="block">Happ — БЕЛЫЙ СПИСОК</span>
                         <span className="block text-xs font-normal text-white/40">
-                          Скопируем ссылку и откроем приложение
+                          STEADY MODE · устойчивый режим
                         </span>
                       </span>
                     </button>
 
                     <button
-                      disabled={!selectedInstallLink || !data?.can_use_vpn}
-                      onClick={copySelectedLink}
+                      disabled={!globalLink || !data?.can_use_vpn}
+                      onClick={() => autoSetup("incy", "global")}
+                      className="flex w-full items-center gap-3 border-b border-white/10 px-4 py-4 text-left font-bold transition hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      <span className="text-xl">⬛</span>
+                      <span>
+                        <span className="block">INCY — ЧЁРНЫЙ СПИСОК</span>
+                        <span className="block text-xs font-normal text-white/40">
+                          GLOBAL MODE · быстрый режим
+                        </span>
+                      </span>
+                    </button>
+
+                    <button
+                      disabled={!steadyLink || !data?.can_use_vpn}
+                      onClick={() => autoSetup("incy", "steady")}
                       className="flex w-full items-center gap-3 px-4 py-4 text-left font-bold transition hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-50"
                     >
-                      <span className="text-xl">🔗</span>
+                      <span className="text-xl">⬜</span>
                       <span>
-                        <span className="block">Скопировать ссылку</span>
+                        <span className="block">INCY — БЕЛЫЙ СПИСОК</span>
                         <span className="block text-xs font-normal text-white/40">
-                          {selectedModeTitle}
+                          STEADY MODE · устойчивый режим
                         </span>
                       </span>
+                    </button>
+                  </div>
+
+                  <div className="mt-4 grid grid-cols-2 gap-3">
+                    <button
+                      disabled={!globalLink || !data?.can_use_vpn}
+                      onClick={() => copyModeLink("global")}
+                      className="rounded-2xl bg-emerald-600 px-4 py-4 text-left font-bold disabled:cursor-not-allowed disabled:bg-slate-700 disabled:opacity-55"
+                    >
+                      Скопировать GLOBAL
+                    </button>
+
+                    <button
+                      disabled={!steadyLink || !data?.can_use_vpn}
+                      onClick={() => copyModeLink("steady")}
+                      className="rounded-2xl bg-slate-700 px-4 py-4 text-left font-bold disabled:cursor-not-allowed disabled:bg-slate-700 disabled:opacity-55"
+                    >
+                      Скопировать STEADY
                     </button>
                   </div>
 
@@ -721,7 +728,7 @@ export default function ConnectPage() {
                     </p>
                   )}
 
-                  {copiedMode === selectedInstallLink?.mode && (
+                  {copiedMode && (
                     <p className="mt-4 rounded-2xl bg-emerald-500/10 p-3 text-sm text-emerald-100/90">
                       Ссылка скопирована ✅
                     </p>

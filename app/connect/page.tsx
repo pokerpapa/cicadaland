@@ -252,6 +252,15 @@ export default function ConnectPage() {
     setNotice(null)
   }
 
+  function openAlreadyInstalled() {
+    setInstallScreen("smartphone")
+    setSelectedApp("happ")
+    setInstallStep(2)
+    setSelectedMode("global")
+    setManualLinkVisible(false)
+    setNotice(null)
+  }
+
   function openWindowsInstall() {
     setInstallScreen("windows")
     setInstallStep(1)
@@ -504,37 +513,54 @@ export default function ConnectPage() {
               </section>
 
               <section className="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
-                <h2 className="text-lg font-bold">Установка</h2>
+                <h2 className="text-lg font-bold">Подключение VPN</h2>
 
-                <div className="mt-4 grid grid-cols-2 gap-3">
+                <div className="mt-4 overflow-hidden rounded-2xl bg-black/25">
                   <button
                     onClick={openSmartphoneInstall}
-                    className="rounded-2xl bg-black/25 p-4 text-left font-semibold transition hover:bg-white/10"
+                    className="flex w-full items-center justify-between gap-3 border-b border-white/10 px-4 py-4 text-left font-bold transition hover:bg-white/5"
                   >
-                    📱 iPhone
-                  </button>
-
-                  <button
-                    onClick={openSmartphoneInstall}
-                    className="rounded-2xl bg-black/25 p-4 text-left font-semibold transition hover:bg-white/10"
-                  >
-                    🤖 Android
+                    <span className="flex items-center gap-3">
+                      <span className="text-xl">📱</span>
+                      <span>Установка на Смартфон</span>
+                    </span>
+                    <span className="text-white/35">›</span>
                   </button>
 
                   <button
                     onClick={openWindowsInstall}
-                    className="rounded-2xl bg-black/25 p-4 text-left font-semibold transition hover:bg-white/10"
+                    className="flex w-full items-center justify-between gap-3 border-b border-white/10 px-4 py-4 text-left font-bold transition hover:bg-white/5"
                   >
-                    💻 Windows
+                    <span className="flex items-center gap-3">
+                      <span className="text-xl">🪟</span>
+                      <span>Установка на ПК</span>
+                    </span>
+                    <span className="text-white/35">›</span>
                   </button>
 
                   <button
                     onClick={openTvInstall}
-                    className="rounded-2xl bg-black/25 p-4 text-left font-semibold transition hover:bg-white/10"
+                    className="flex w-full items-center justify-between gap-3 px-4 py-4 text-left font-bold transition hover:bg-white/5"
                   >
-                    📺 Android TV
+                    <span className="flex items-center gap-3">
+                      <span className="text-xl">📺</span>
+                      <span>Подключить на Android TV</span>
+                    </span>
+                    <span className="text-white/35">›</span>
                   </button>
                 </div>
+
+                <button
+                  onClick={openAlreadyInstalled}
+                  className="mt-4 flex w-full items-center justify-between gap-3 rounded-2xl bg-black/30 px-4 py-4 text-left font-bold transition hover:bg-white/10"
+                >
+                  <span className="flex items-center gap-3">
+                    <span className="text-xl">🅷</span>
+                    <span className="text-xl">🟩</span>
+                    <span>Уже есть Happ или INCY?</span>
+                  </span>
+                  <span className="text-white/35">›</span>
+                </button>
               </section>
 
               {installScreen === "smartphone" && installStep === 1 && (
@@ -622,7 +648,7 @@ export default function ConnectPage() {
               {installScreen === "smartphone" && installStep === 2 && (
                 <section className="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
                   <div className="flex items-center justify-between gap-3">
-                    <h2 className="text-lg font-bold">Установка на Смартфон</h2>
+                    <h2 className="text-lg font-bold">Авто-настройка VPN</h2>
                     <button
                       onClick={closeInstall}
                       className="rounded-full bg-red-500/15 px-3 py-1 text-sm font-bold text-red-300"
@@ -633,16 +659,9 @@ export default function ConnectPage() {
 
                   <div className="mt-4 rounded-2xl border border-emerald-400/20 bg-emerald-500/10 p-4">
                     <p className="text-sm leading-6 text-emerald-50/90">
-                      Откройте установленное приложение и добавьте обе подписки по очереди.
-                      Сначала чёрный список, затем белый список.
-                    </p>
-                  </div>
-
-                  <div className="mt-4 rounded-2xl border border-blue-400/20 bg-blue-500/10 p-4">
-                    <p className="text-sm leading-6 text-blue-50/90">
-                      Рекомендуем добавить обе подписки:
-                      сначала <span className="font-bold text-emerald-300"> чёрный список</span>,
-                      затем <span className="font-bold text-slate-200"> белый список</span>.
+                      Добавьте обе подписки по очереди: сначала{" "}
+                      <span className="font-bold text-emerald-300">чёрный список</span>, затем{" "}
+                      <span className="font-bold text-slate-100">белый список</span>.
                     </p>
                   </div>
 

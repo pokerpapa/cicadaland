@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Shield, Zap, Menu, X, Languages } from "lucide-react"
+import { Zap, Menu, X, Languages } from "lucide-react"
 import { useTranslation } from "@/lib/i18n"
 import Image from "next/image"
 
@@ -24,7 +24,9 @@ export function Header() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20)
     }
+
     window.addEventListener("scroll", handleScroll)
+
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
@@ -34,10 +36,11 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-        ? "bg-[#070B1A]/80 backdrop-blur-xl border-b border-[#1F2A44]"
-        : "bg-transparent"
-        }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? "bg-[#070B1A]/80 backdrop-blur-xl border-b border-[#1F2A44]"
+          : "bg-transparent"
+      }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
@@ -54,15 +57,19 @@ export function Header() {
                 />
               </div>
             </div>
+
             <span className="text-xl font-bold text-[#E5E7EB] tracking-tight">
               PRO<span className="text-[#3B82F6]">VPN</span>
             </span>
+
             {/* Country Flags - Global Presence */}
             <div className="flex items-center gap-1.5 sm:gap-2 ml-2 sm:ml-4 opacity-80 bg-[#1F2A44]/30 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full border border-[#1F2A44]/50">
               {countryFlags.map((code, index) => (
                 <div
                   key={code}
-                  className={`relative w-4 h-3 sm:w-5 sm:h-3.5 overflow-hidden rounded-sm hover:scale-110 transition-transform shadow-sm ${index > 3 ? "hidden sm:block" : ""}`}
+                  className={`relative w-4 h-3 sm:w-5 sm:h-3.5 overflow-hidden rounded-sm hover:scale-110 transition-transform shadow-sm ${
+                    index > 3 ? "hidden sm:block" : ""
+                  }`}
                   title={code.toUpperCase()}
                 >
                   <img
@@ -73,7 +80,10 @@ export function Header() {
                   />
                 </div>
               ))}
-              <span className="text-[9px] sm:text-[10px] text-[#94A3B8] ml-0.5 sm:ml-1 font-medium">+24</span>
+
+              <span className="text-[9px] sm:text-[10px] text-[#94A3B8] ml-0.5 sm:ml-1 font-medium">
+                +24
+              </span>
             </div>
           </a>
 
@@ -99,13 +109,14 @@ export function Header() {
               <Languages className="w-4 h-4" />
               {language}
             </button>
+
             <Button
               asChild
               className="bg-[#3B82F6] hover:bg-[#2563EB] text-white font-medium px-5 py-2 rounded-xl shadow-lg shadow-[#3B82F6]/25 hover:shadow-[#3B82F6]/40 transition-all"
             >
-              <a href="https://t.me/PROVPN_SecureBot" target="_blank" rel="noopener noreferrer">
+              <a href="#get-vpn">
                 <Zap className="w-4 h-4 mr-2" />
-                {t("nav.openBot")}
+                Получить VPN
               </a>
             </Button>
           </div>
@@ -118,12 +129,17 @@ export function Header() {
             >
               {language}
             </button>
+
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="p-2 text-[#94A3B8] hover:text-[#E5E7EB] transition-colors"
               aria-label="Toggle menu"
             >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </button>
           </div>
         </div>
@@ -143,14 +159,16 @@ export function Header() {
                 {link.label}
               </a>
             ))}
+
             <div className="h-px bg-[#1F2A44] my-4 mx-4" />
+
             <Button
               asChild
               className="bg-[#3B82F6] hover:bg-[#2563EB] text-white font-semibold rounded-2xl h-14 text-lg shadow-lg shadow-[#3B82F6]/20 transition-all active:scale-95"
             >
-              <a href="https://t.me/PROVPN_SecureBot" target="_blank" rel="noopener noreferrer">
+              <a href="#get-vpn" onClick={() => setIsMobileMenuOpen(false)}>
                 <Zap className="w-5 h-5 mr-3" />
-                {t("nav.openBot")}
+                Получить VPN
               </a>
             </Button>
           </nav>

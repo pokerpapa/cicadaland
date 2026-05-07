@@ -12,6 +12,10 @@
     {
       "source": "/api/platega/:path*",
       "destination": "http://5.35.46.87:8091/api/platega/:path*"
+    },
+    {
+      "source": "/api/site/:path*",
+      "destination": "http://5.35.46.87:8091/api/site/:path*"
     }
   ]
 }

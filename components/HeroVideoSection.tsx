@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
-import { Zap, ChevronDown, Key, Shield, Smartphone, RefreshCw } from "lucide-react"
+import { Zap, ChevronDown, Shield, Smartphone, RefreshCw } from "lucide-react"
 import { useTranslation } from "@/lib/i18n"
 
 export function HeroVideoSection() {
@@ -23,6 +23,7 @@ export function HeroVideoSection() {
     if (!ctx) return
 
     let animationFrameId: number
+
     const particles: Array<{
       x: number
       y: number
@@ -38,7 +39,10 @@ export function HeroVideoSection() {
     }
 
     const createParticles = () => {
+      particles.length = 0
+
       const particleCount = Math.floor((canvas.width * canvas.height) / 15000)
+
       for (let i = 0; i < particleCount; i++) {
         particles.push({
           x: Math.random() * canvas.width,
@@ -49,6 +53,11 @@ export function HeroVideoSection() {
           alpha: Math.random() * 0.5 + 0.2,
         })
       }
+    }
+
+    const handleResize = () => {
+      resizeCanvas()
+      createParticles()
     }
 
     const animate = () => {
@@ -74,10 +83,10 @@ export function HeroVideoSection() {
     createParticles()
     animate()
 
-    window.addEventListener("resize", resizeCanvas)
+    window.addEventListener("resize", handleResize)
 
     return () => {
-      window.removeEventListener("resize", resizeCanvas)
+      window.removeEventListener("resize", handleResize)
       cancelAnimationFrame(animationFrameId)
     }
   }, [])
@@ -96,6 +105,7 @@ export function HeroVideoSection() {
         >
           <source src="/assets/header.mp4" type="video/mp4" />
         </video>
+
         {/* Dark Overlay Gradient - Lightened to show more video */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#070B1A]/40 via-transparent to-[#070B1A]/80" />
       </div>
@@ -117,6 +127,7 @@ export function HeroVideoSection() {
               <span className="relative inline-flex rounded-full h-1.5 w-1.5 sm:h-2 sm:w-2 bg-[#22C55E]" />
             </span>
           </div>
+
           <span className="text-[10px] sm:text-sm font-medium text-[#E5E7EB]/90 leading-tight text-left">
             {t("hero.badge")}
           </span>
@@ -127,6 +138,7 @@ export function HeroVideoSection() {
           <span className="block mb-2 text-balance leading-[1.1]">
             {t("hero.title1")}
           </span>
+
           <span className="bg-gradient-to-r from-[#3B82F6] via-[#60A5FA] to-[#A78BFA] bg-clip-text text-transparent animate-gradient-x">
             {t("hero.title2")}
           </span>
@@ -139,11 +151,12 @@ export function HeroVideoSection() {
             size="lg"
             className="w-full sm:w-auto bg-[#3B82F6] hover:bg-[#2563EB] text-white font-semibold px-8 py-7 text-lg rounded-2xl shadow-xl shadow-[#3B82F6]/25 hover:shadow-[#3B82F6]/40 transition-all hover:scale-[1.02] active:scale-95"
           >
-            <a href="https://t.me/PROVPN_SecureBot" target="_blank" rel="noopener noreferrer">
+            <a href="#get-vpn">
               <Zap className="w-5 h-5 mr-3" />
-              {t("hero.ctaStart")}
+              Получить VPN
             </a>
           </Button>
+
           <Button
             asChild
             variant="outline"
@@ -162,7 +175,9 @@ export function HeroVideoSection() {
               className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-[#0B1026]/40 border border-[#1F2A44]/50 backdrop-blur-md hover:border-[#3B82F6]/30 transition-all group"
             >
               <chip.icon className="w-4 h-4 text-[#3B82F6] group-hover:scale-110 transition-transform" />
-              <span className="text-[12px] sm:text-sm text-[#94A3B8] font-medium">{chip.label}</span>
+              <span className="text-[12px] sm:text-sm text-[#94A3B8] font-medium">
+                {chip.label}
+              </span>
             </div>
           ))}
         </div>

@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header"
 import { HeroVideoSection } from "@/components/HeroVideoSection"
+import { SiteAccessSection } from "@/components/SiteAccessSection"
 import { FaqSection } from "@/components/FaqSection"
 import { FeaturesSection } from "@/components/FeaturesSection"
 import { AppsSection } from "@/components/AppsSection"
@@ -14,6 +15,7 @@ export default function Home() {
     <main className="min-h-screen bg-[#070B1A]">
       <Header />
       <HeroVideoSection />
+      <SiteAccessSection />
       <FeaturesSection />
       <AppsSection />
       <KeysSection />

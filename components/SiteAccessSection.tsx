@@ -38,9 +38,12 @@ type ApiResponse = {
   paymentUrl?: string
   order_id?: string | number
   orderId?: string | number
+  transaction_id?: string
+  transactionId?: string
   status?: string
   can_use_vpn?: boolean
   has_access?: number
+  already_paid?: boolean
   user?: SiteUser
   links?: SiteLink[]
   global?: string
@@ -268,6 +271,18 @@ export function SiteAccessSection() {
         throw new Error(json.error || "Не удалось создать оплату.")
       }
 
+      if (json.already_paid || json.can_use_vpn) {
+        setUser((current) => ({
+          ...(current || {}),
+          has_access: 1,
+          can_use_vpn: true,
+          access_status: json.status || "paid",
+        }))
+        setNotice("Доступ уже активирован. Загружаем VPN-ссылки.")
+        await loadLinks(webToken)
+        return
+      }
+
       const paymentUrl = json.payment_url || json.paymentUrl
       const nextOrderId = json.order_id || json.orderId
 
@@ -278,7 +293,9 @@ export function SiteAccessSection() {
       const order = String(nextOrderId)
       localStorage.setItem(ORDER_KEY, order)
       setOrderId(order)
-      setNotice("Ссылка оплаты открыта. После оплаты вернитесь сюда и нажмите «Проверить оплату».")
+      setNotice(
+        "Ссылка оплаты открыта. Не закрывайте эту вкладку: после оплаты вернитесь сюда и нажмите «Я оплатил — проверить». Обычно доступ активируется в течение 1–2 минут."
+      )
 
       window.open(paymentUrl, "_blank", "noopener,noreferrer")
     } catch (err) {
@@ -319,7 +336,7 @@ export function SiteAccessSection() {
         json.status === "success"
 
       if (!paid) {
-        setNotice(`Оплата пока не подтверждена. Текущий статус: ${json.status || "pending"}.`)
+        setNotice(`Оплата пока не подтверждена. Текущий статус: ${json.status || "pending"}. Если вы уже оплатили, подождите 1–2 минуты и нажмите проверку ещё раз.`)
         return
       }
 
@@ -403,7 +420,7 @@ export function SiteAccessSection() {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto mb-12 max-w-3xl text-center">
           <span className="mb-6 inline-flex rounded-full border border-[#22C55E]/20 bg-[#22C55E]/10 px-4 py-2 text-sm font-medium text-[#22C55E]">
-            VPN без Telegram
+            Получить доступ на сайте
           </span>
 
           <h2 className="text-balance text-3xl font-bold text-[#E5E7EB] sm:text-4xl md:text-5xl">
@@ -415,8 +432,9 @@ export function SiteAccessSection() {
           </h2>
 
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#94A3B8]">
-            Если Telegram временно недоступен без VPN — скачайте приложение,
-            оплатите доступ на сайте и сразу добавьте подписки GLOBAL и STEADY.
+            Скачайте приложение, оплатите доступ на сайте и сразу добавьте
+            подписки GLOBAL и STEADY. Telegram-бот остаётся как дополнительный
+            способ входа и поддержки.
           </p>
         </div>
 
@@ -446,8 +464,8 @@ export function SiteAccessSection() {
                 <div>
                   <p className="font-semibold text-[#E5E7EB]">2. Оплатите картой / СБП</p>
                   <p className="mt-1 text-sm leading-6 text-[#94A3B8]">
-                    Оплата проходит через Platega. После callback доступ
-                    активируется в базе автоматически.
+                    Оплата проходит через Platega. После подтверждения платежа
+                    доступ активируется автоматически.
                   </p>
                 </div>
               </div>
@@ -599,6 +617,22 @@ export function SiteAccessSection() {
                   </Button>
                 )}
 
+                <div className="rounded-2xl border border-yellow-400/20 bg-yellow-400/10 p-4 text-sm leading-6 text-yellow-100/90">
+                  <b>Важно:</b> не закрывайте эту вкладку до получения ссылок.
+                  После оплаты вернитесь сюда и нажмите{" "}
+                  <b>«Я оплатил — проверить»</b>. Если доступ не появился в
+                  течение 2–3 минут — напишите в поддержку.
+                </div>
+
+                <a
+                  href="https://t.me/provpnsup_bot"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-4 text-sm font-extrabold text-white transition hover:bg-white/[0.08]"
+                >
+                  Нужна помощь? Написать в поддержку
+                </a>
+
                 <button
                   onClick={resetSession}
                   className="w-full text-sm text-[#94A3B8] transition hover:text-[#E5E7EB]"
@@ -667,6 +701,15 @@ export function SiteAccessSection() {
                     onIncy={() => openApp("incy", steadyLink.url)}
                   />
                 )}
+
+                <a
+                  href="https://t.me/provpnsup_bot"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-4 text-sm font-extrabold text-white transition hover:bg-white/[0.08]"
+                >
+                  Нужна помощь с подключением? Написать в поддержку
+                </a>
               </div>
             )}
 

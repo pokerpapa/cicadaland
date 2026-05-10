@@ -9,6 +9,7 @@ import {
   ExternalLink,
   Loader2,
   Mail,
+  MessageCircle,
   RefreshCw,
   ShieldCheck,
   Smartphone,
@@ -48,6 +49,12 @@ type ApiResponse = {
   links?: SiteLink[]
   global?: string
   steady?: string
+  telegram_link?: string
+  telegramLink?: string
+  bot_link?: string
+  botLink?: string
+  link?: string
+  url?: string
 }
 
 const TOKEN_KEY = "provpn_web_token"
@@ -132,6 +139,7 @@ export function SiteAccessSection() {
   const [loadingPayment, setLoadingPayment] = useState(false)
   const [checkingPayment, setCheckingPayment] = useState(false)
   const [loadingLinks, setLoadingLinks] = useState(false)
+  const [loadingTelegramLink, setLoadingTelegramLink] = useState(false)
 
   const [error, setError] = useState<string | null>(null)
   const [notice, setNotice] = useState<string | null>(null)
@@ -384,6 +392,55 @@ export function SiteAccessSection() {
     }
   }
 
+  async function createTelegramLink() {
+    if (!webToken) {
+      setError("Сначала войдите в web-кабинет.")
+      return
+    }
+
+    if (!canUseVpn) {
+      setError("Привязка Telegram доступна после активации доступа.")
+      return
+    }
+
+    setError(null)
+    setNotice(null)
+    setLoadingTelegramLink(true)
+
+    try {
+      const response = await fetch("/api/site/telegram-link", {
+        method: "POST",
+        headers: getAuthHeaders(webToken),
+      })
+
+      const json = await parseJson(response)
+
+      if (!response.ok || json.error) {
+        throw new Error(json.error || "Не удалось создать ссылку для Telegram.")
+      }
+
+      const telegramLink =
+        json.telegram_link ||
+        json.telegramLink ||
+        json.bot_link ||
+        json.botLink ||
+        json.link ||
+        json.url
+
+      if (!telegramLink) {
+        throw new Error("Сервер не вернул ссылку для Telegram.")
+      }
+
+      setNotice("Открываем Telegram. Нажмите Start в боте, чтобы привязать Premium-доступ.")
+
+      window.location.href = telegramLink
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Ошибка привязки Telegram.")
+    } finally {
+      setLoadingTelegramLink(false)
+    }
+  }
+
   async function copyText(text: string, mode: string) {
     try {
       await navigator.clipboard.writeText(text)
@@ -606,7 +663,7 @@ export function SiteAccessSection() {
                   ) : (
                     <>
                       <CreditCard className="h-5 w-5" />
-                      Оплатить картой / СБП
+                      Оплатить один раз за 490₽
                     </>
                   )}
                 </Button>
@@ -710,6 +767,34 @@ export function SiteAccessSection() {
                     onIncy={() => openApp("incy", steadyLink.url)}
                   />
                 )}
+
+                <div className="rounded-2xl border border-[#3B82F6]/20 bg-[#3B82F6]/10 p-4">
+                  <p className="font-bold text-blue-100">
+                    Хотите видеть Premium ещё и в Telegram?
+                  </p>
+                  <p className="mt-2 text-sm leading-6 text-blue-100/80">
+                    Нажмите кнопку ниже. Откроется бот PROVPN, и ваш сайт-доступ
+                    будет безопасно привязан к Telegram-аккаунту.
+                  </p>
+
+                  <Button
+                    onClick={createTelegramLink}
+                    disabled={loadingTelegramLink}
+                    className="mt-4 h-14 w-full rounded-2xl bg-[#3B82F6] text-base font-semibold text-white hover:bg-[#2563EB]"
+                  >
+                    {loadingTelegramLink ? (
+                      <>
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                        Создаём ссылку...
+                      </>
+                    ) : (
+                      <>
+                        <MessageCircle className="h-5 w-5" />
+                        Привязать Telegram
+                      </>
+                    )}
+                  </Button>
+                </div>
 
                 <a
                   href="https://t.me/provpnsup_bot"

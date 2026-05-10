@@ -454,7 +454,7 @@ export function SiteAccessSection() {
                 <div>
                   <p className="font-semibold text-[#E5E7EB]">1. Введите email</p>
                   <p className="mt-1 text-sm leading-6 text-[#94A3B8]">
-                    Email нужен для создания web-кабинета. Доступ сохранится в этом браузере.
+                    Email нужен для входа в web-кабинет. После оплаты вы сможете открыть доступ с любого устройства, просто введя этот же email.
                   </p>
                 </div>
               </div>

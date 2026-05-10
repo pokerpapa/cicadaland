@@ -18,7 +18,7 @@ const translations: Record<Language, TranslationDict> = {
       openBot: "Open Telegram Bot",
     },
     hero: {
-      badge: "Currently active: 300+ servers in dozens of countries worldwide — bypass any blocking types",
+      badge: "Currently active: 300+ servers in dozens of countries worldwide.",
       title1: "PROVPN — Fast & ",
       title2: "Stable VPN",
       ctaStart: "Open Telegram Bot",
@@ -37,15 +37,15 @@ const translations: Record<Language, TranslationDict> = {
       items: [
         {
           question: "What is PROVPN?",
-          answer: "PROVPN is a Telegram bot that helps you quickly connect to secure VLESS VPN servers, ensuring anonymity and personal data protection when accessing the internet.",
+          answer: "PROVPN is a service for quick access to secure VPN servers. You can get access through the website or through the Telegram bot. It helps improve privacy, protect your connection, and use the internet more safely across different devices.",
         },
         {
           question: "What capabilities does PROVPN offer?",
-          answer: "The bot allows you to access VPN connections in various countries, bypass any type of blocking (including whitelists) of sites and applications, and protect traffic when using public Wi-Fi networks.",
+          answer: "PROVPN provides access to secure VPN connections in different countries, helps keep your connection stable in challenging network conditions, and protects traffic when using public Wi-Fi networks. You can choose the connection mode that suits you best: GLOBAL or STEADY.",
         },
         {
           question: "How do I start using PROVPN?",
-          answer: "Simply open our Telegram bot and click the 'Start' button or send the /start command. From there, you can choose a suitable plan and server for connection.",
+          answer: "You can start directly on the website: enter your email, pay for access, and receive your personal GLOBAL and STEADY subscription links. The Telegram bot is also available: open it, tap Start, or send the /start command.",
         },
         {
           question: "Is PROVPN free or paid?",
@@ -57,7 +57,7 @@ const translations: Record<Language, TranslationDict> = {
         },
         {
           question: "How do I contact support?",
-          answer: "User support is available 24/7 through the 'Support' section in the bot menu.",
+          answer: "If you need help with payment, setup, or moving access to another device, message our Telegram support bot: @provpnsup_bot.",
         },
       ],
     },
@@ -250,7 +250,7 @@ const translations: Record<Language, TranslationDict> = {
       openBot: "Открыть бота",
     },
     hero: {
-      badge: "Сейчас активно: 300+ серверов в десятках стран мира — обходи любые типы блокировок",
+      badge: "Сейчас активно: 300+ серверов в десятках стран мира.",
       title1: "PROVPN — быстрый и ",
       title2: "стабильный VPN",
       ctaStart: "Открыть Telegram бота",
@@ -269,15 +269,15 @@ const translations: Record<Language, TranslationDict> = {
       items: [
         {
           question: "Что представляет собой сервис «PROVPN»?",
-          answer: "«PROVPN» — это Telegram-бот, который помогает быстро подключиться к безопасным VPN-серверам, обеспечивая анонимность и защиту личных данных при выходе в интернет.",
+          answer: "«PROVPN» — это сервис для быстрого подключения к защищённым VPN-серверам. Получить доступ можно через сайт или через Telegram-бота. Сервис помогает повысить приватность, защитить соединение и безопаснее пользоваться интернетом на разных устройствах.",
         },
         {
           question: "Какие возможности и функционал у «PROVPN»?",
-          answer: "Бот позволяет получать доступ к VPN-подключениям в разных странах, обойти любые типы блокировок (включая «белые списки») сайтов и приложений, а также защитить трафик при использовании общедоступных Wi-Fi сетей.",
+          answer: "PROVPN предоставляет доступ к защищённым VPN-подключениям в разных странах, помогает сохранять стабильное соединение в сложных сетевых условиях и защищает трафик при использовании публичных Wi-Fi сетей. Пользователь может выбрать подходящий режим подключения: GLOBAL или STEADY.",
         },
         {
-          question: "С чего начать работу с ботом «PROVPN»?",
-          answer: "Перейдите в наш Telegram-бот и нажмите кнопку «Запустить» или отправьте команду /start. Далее бот предложит выбрать подходящий тариф и сервер для подключения.",
+          question: "С чего начать работу с «PROVPN»?",
+          answer: "Вы можете начать прямо на сайте: введите email, оплатите доступ и получите персональные ссылки GLOBAL и STEADY. Также доступен Telegram-бот: откройте его, нажмите «Запустить» или отправьте команду /start.",
         },
         {
           question: "PROVPN платный или бесплатный?",
@@ -289,7 +289,7 @@ const translations: Record<Language, TranslationDict> = {
         },
         {
           question: "Как обратиться в службу поддержки?",
-          answer: "Поддержка пользователей доступна круглосуточно через раздел «Поддержка» в меню бота.",
+          answer: "Если нужна помощь с оплатой, подключением или переносом доступа на другое устройство, напишите в Telegram-бот поддержки: @provpnsup_bot.",
         },
       ],
     },
@@ -484,7 +484,7 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguage] = useState<Language>("ru") // Default to RU as requested
+  const [language, setLanguage] = useState<Language>("ru")
 
   useEffect(() => {
     const saved = localStorage.getItem("language") as Language

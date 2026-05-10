@@ -294,7 +294,7 @@ export function SiteAccessSection() {
       localStorage.setItem(ORDER_KEY, order)
       setOrderId(order)
       setNotice(
-        "Ссылка оплаты открыта. Не закрывайте эту вкладку: после оплаты вернитесь сюда и нажмите «Я оплатил — проверить». Обычно доступ активируется в течение 1–2 минут."
+        "Оплата открыта в новой вкладке. Не закрывайте эту страницу. После оплаты вернитесь сюда и нажмите «Я оплатил — проверить»."
       )
 
       window.open(paymentUrl, "_blank", "noopener,noreferrer")
@@ -336,11 +336,13 @@ export function SiteAccessSection() {
         json.status === "success"
 
       if (!paid) {
-        setNotice(`Оплата пока не подтверждена. Текущий статус: ${json.status || "pending"}. Если вы уже оплатили, подождите 1–2 минуты и нажмите проверку ещё раз.`)
+        setNotice(
+          `Оплата пока не подтверждена. Текущий статус: ${json.status || "pending"}. Если вы уже оплатили, подождите 1–2 минуты и нажмите проверку ещё раз.`
+        )
         return
       }
 
-      setNotice("Оплата подтверждена. Загружаем VPN-ссылки.")
+      setNotice("Оплата подтверждена ✅ Сейчас загрузим ваши VPN-ссылки. Добавьте обе: GLOBAL и STEADY.")
       await loadMe(webToken)
       await loadLinks(webToken)
     } catch (err) {
@@ -420,7 +422,7 @@ export function SiteAccessSection() {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto mb-12 max-w-3xl text-center">
           <span className="mb-6 inline-flex rounded-full border border-[#22C55E]/20 bg-[#22C55E]/10 px-4 py-2 text-sm font-medium text-[#22C55E]">
-            Получить доступ на сайте
+            Быстрое подключение за 3 минуты
           </span>
 
           <h2 className="text-balance text-3xl font-bold text-[#E5E7EB] sm:text-4xl md:text-5xl">
@@ -432,16 +434,16 @@ export function SiteAccessSection() {
           </h2>
 
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#94A3B8]">
-            Скачайте приложение, оплатите доступ на сайте и сразу добавьте
-            подписки GLOBAL и STEADY. Telegram-бот остаётся как дополнительный
-            способ входа и поддержки.
+            Сначала скачайте приложение Happ или INCY, затем оплатите доступ.
+            После оплаты вернитесь на эту страницу, нажмите «Проверить оплату»
+            и добавьте две подписки: GLOBAL и STEADY.
           </p>
         </div>
 
         <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="rounded-3xl border border-[#1F2A44] bg-[#0B1026] p-6 sm:p-8">
             <h3 className="mb-6 text-2xl font-bold text-[#E5E7EB]">
-              Как это работает
+              3 простых шага
             </h3>
 
             <div className="space-y-4">
@@ -452,7 +454,7 @@ export function SiteAccessSection() {
                 <div>
                   <p className="font-semibold text-[#E5E7EB]">1. Введите email</p>
                   <p className="mt-1 text-sm leading-6 text-[#94A3B8]">
-                    Мы создадим web-кабинет и сохраним доступ в этом браузере.
+                    Email нужен для создания web-кабинета. Доступ сохранится в этом браузере.
                   </p>
                 </div>
               </div>
@@ -464,8 +466,8 @@ export function SiteAccessSection() {
                 <div>
                   <p className="font-semibold text-[#E5E7EB]">2. Оплатите картой / СБП</p>
                   <p className="mt-1 text-sm leading-6 text-[#94A3B8]">
-                    Оплата проходит через Platega. После подтверждения платежа
-                    доступ активируется автоматически.
+                    Нажмите кнопку оплаты. Откроется защищённая страница Platega.
+                    Важно: не закрывайте эту вкладку сайта — после оплаты вернитесь сюда.
                   </p>
                 </div>
               </div>
@@ -477,7 +479,8 @@ export function SiteAccessSection() {
                 <div>
                   <p className="font-semibold text-[#E5E7EB]">3. Добавьте подписки</p>
                   <p className="mt-1 text-sm leading-6 text-[#94A3B8]">
-                    Получите GLOBAL и STEADY ссылки, добавьте их в Happ или INCY.
+                    После подтверждения оплаты нажмите Happ или INCY возле каждой ссылки.
+                    Добавьте сначала GLOBAL, затем STEADY.
                   </p>
                 </div>
               </div>
@@ -578,6 +581,18 @@ export function SiteAccessSection() {
                   </p>
                 </div>
 
+                <div className="rounded-2xl border border-yellow-400/20 bg-yellow-400/10 p-4">
+                  <p className="font-bold text-yellow-200">
+                    Важно перед оплатой
+                  </p>
+                  <ul className="mt-2 space-y-1 text-sm leading-6 text-yellow-100/85">
+                    <li>1. Не закрывайте эту вкладку сайта.</li>
+                    <li>2. Оплата откроется в новой вкладке.</li>
+                    <li>3. После оплаты вернитесь сюда.</li>
+                    <li>4. Нажмите кнопку «Я оплатил — проверить».</li>
+                  </ul>
+                </div>
+
                 <Button
                   onClick={createPayment}
                   disabled={loadingPayment}
@@ -595,6 +610,15 @@ export function SiteAccessSection() {
                     </>
                   )}
                 </Button>
+
+                <a
+                  href="https://t.me/provpnsup_bot"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-14 w-full items-center justify-center rounded-2xl border border-[#1F2A44] bg-[#070B1A] text-base font-semibold text-[#E5E7EB] transition hover:bg-[#1F2A44]"
+                >
+                  Нужна помощь? Написать в поддержку
+                </a>
 
                 {orderId && (
                   <Button
@@ -617,22 +641,6 @@ export function SiteAccessSection() {
                   </Button>
                 )}
 
-                <div className="rounded-2xl border border-yellow-400/20 bg-yellow-400/10 p-4 text-sm leading-6 text-yellow-100/90">
-                  <b>Важно:</b> не закрывайте эту вкладку до получения ссылок.
-                  После оплаты вернитесь сюда и нажмите{" "}
-                  <b>«Я оплатил — проверить»</b>. Если доступ не появился в
-                  течение 2–3 минут — напишите в поддержку.
-                </div>
-
-                <a
-                  href="https://t.me/provpnsup_bot"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-4 text-sm font-extrabold text-white transition hover:bg-white/[0.08]"
-                >
-                  Нужна помощь? Написать в поддержку
-                </a>
-
                 <button
                   onClick={resetSession}
                   className="w-full text-sm text-[#94A3B8] transition hover:text-[#E5E7EB]"
@@ -652,7 +660,8 @@ export function SiteAccessSection() {
                         Доступ активирован
                       </p>
                       <p className="mt-1 text-sm leading-6 text-[#94A3B8]">
-                        Теперь добавьте обе подписки в приложение: GLOBAL и STEADY.
+                        Ниже появились две подписки. Нажмите Happ или INCY возле GLOBAL,
+                        затем повторите то же самое для STEADY.
                       </p>
                     </div>
                   </div>
@@ -773,14 +782,14 @@ function VpnLinkCard({
           onClick={onHapp}
           className="rounded-xl bg-[#3B82F6] text-white hover:bg-[#2563EB]"
         >
-          Happ
+          Добавить в Happ
         </Button>
 
         <Button
           onClick={onIncy}
           className="rounded-xl bg-[#22C55E] text-white hover:bg-[#16A34A]"
         >
-          INCY
+          Добавить в INCY
         </Button>
 
         <Button
@@ -789,7 +798,7 @@ function VpnLinkCard({
           className="rounded-xl border-[#1F2A44] bg-[#0B1026] text-[#E5E7EB] hover:bg-[#1F2A44]"
         >
           <Copy className="h-4 w-4" />
-          {copied ? "Готово" : "Копия"}
+          {copied ? "Скопировано" : "Копировать"}
         </Button>
       </div>
     </div>

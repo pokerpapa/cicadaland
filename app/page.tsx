@@ -9,6 +9,7 @@ import { ReviewsSection } from "@/components/ReviewsSection"
 import { ContactSection } from "@/components/ContactSection"
 import { Footer } from "@/components/Footer"
 import { BackToTop } from "@/components/BackToTop"
+import { FloatingBuyCta } from "@/components/FloatingBuyCta"
 
 export default function Home() {
   return (
@@ -24,6 +25,7 @@ export default function Home() {
       <ContactSection />
       <Footer />
       <BackToTop />
+      <FloatingBuyCta />
     </main>
   )
 }

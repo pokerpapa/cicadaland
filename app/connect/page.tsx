@@ -56,6 +56,7 @@ declare global {
         expand: () => void
         close: () => void
         openLink?: (url: string) => void
+        openTelegramLink?: (url: string) => void
       }
     }
   }
@@ -103,6 +104,9 @@ const INCY_LINKS: AppDownloadLink[] = [
     url: "https://github.com/INCY-DEV/incy-platforms/releases/latest/download/Incy.apk",
   },
 ]
+
+const PREMIUM_BOT_LINK = "https://t.me/PROVPN_SecureBot?start=buy_premium"
+const SUPPORT_BOT_LINK = "https://t.me/provpnsup_bot"
 
 function BottomSheet({ title, onClose, children }: BottomSheetProps) {
   return (
@@ -276,6 +280,24 @@ export default function ConnectPage() {
     if (typeof window === "undefined") return
 
     const webApp = window.Telegram?.WebApp
+
+    if (webApp?.openLink) {
+      webApp.openLink(url)
+      return
+    }
+
+    window.open(url, "_blank", "noopener,noreferrer")
+  }
+
+  function openTelegramUrl(url: string) {
+    if (typeof window === "undefined") return
+
+    const webApp = window.Telegram?.WebApp
+
+    if (webApp?.openTelegramLink) {
+      webApp.openTelegramLink(url)
+      return
+    }
 
     if (webApp?.openLink) {
       webApp.openLink(url)
@@ -523,12 +545,39 @@ export default function ConnectPage() {
                 </div>
 
                 {!data?.can_use_vpn && (
-                  <div className="mt-5 rounded-2xl border border-red-500/20 bg-red-500/[0.08] p-4">
-                    <p className="font-bold text-red-200">Доступ не активен</p>
-                    <p className="mt-2 text-sm leading-6 text-red-100/75">
-                      Тестовый период завершён или доступ заблокирован. Чтобы
-                      продолжить пользоваться VPN, активируйте Premium в боте.
-                    </p>
+                  <div className="mt-5 space-y-4">
+                    <div className="rounded-2xl border border-red-500/20 bg-red-500/[0.08] p-4">
+                      <p className="font-bold text-red-200">Доступ не активен</p>
+                      <p className="mt-2 text-sm leading-6 text-red-100/75">
+                        Тестовый период завершён или доступ заблокирован. Чтобы продолжить
+                        пользоваться VPN, активируйте Premium.
+                      </p>
+                    </div>
+
+                    <div className="rounded-2xl border border-emerald-400/25 bg-emerald-500/[0.10] p-4 shadow-lg shadow-emerald-500/10">
+                      <p className="text-sm font-extrabold text-emerald-200">
+                        💎 Premium навсегда
+                      </p>
+
+                      <p className="mt-2 text-sm leading-6 text-emerald-50/85">
+                        Оплата один раз. Доступ навсегда. После оплаты вернитесь сюда и
+                        обновите Mini App — ссылки GLOBAL и STEADY появятся автоматически.
+                      </p>
+
+                      <button
+                        onClick={() => openTelegramUrl(PREMIUM_BOT_LINK)}
+                        className="mt-4 flex w-full items-center justify-center rounded-2xl bg-emerald-600 px-4 py-4 text-center text-sm font-extrabold text-white shadow-lg shadow-emerald-600/25 transition hover:bg-emerald-500 active:scale-[0.98]"
+                      >
+                        💎 Купить Premium навсегда за 490₽
+                      </button>
+
+                      <button
+                        onClick={() => openTelegramUrl(SUPPORT_BOT_LINK)}
+                        className="mt-3 flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/[0.05] px-4 py-3 text-center text-sm font-bold text-white/85 transition hover:bg-white/[0.09]"
+                      >
+                        👨‍💻 Нужна помощь? Написать в поддержку
+                      </button>
+                    </div>
                   </div>
                 )}
               </section>

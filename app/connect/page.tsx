@@ -290,22 +290,32 @@ export default function ConnectPage() {
   }
 
   function openTelegramUrl(url: string) {
-    if (typeof window === "undefined") return
+  if (typeof window === "undefined") return
 
-    const webApp = window.Telegram?.WebApp
+  const webApp = window.Telegram?.WebApp
 
-    if (webApp?.openTelegramLink) {
-      webApp.openTelegramLink(url)
-      return
-    }
+  if (webApp?.openTelegramLink) {
+    webApp.openTelegramLink(url)
 
-    if (webApp?.openLink) {
-      webApp.openLink(url)
-      return
-    }
+    setTimeout(() => {
+      webApp.close()
+    }, 300)
 
-    window.open(url, "_blank", "noopener,noreferrer")
+    return
   }
+
+  if (webApp?.openLink) {
+    webApp.openLink(url)
+
+    setTimeout(() => {
+      webApp.close()
+    }, 300)
+
+    return
+  }
+
+  window.open(url, "_blank", "noopener,noreferrer")
+}
 
   function openSmartphoneInstall() {
     setInstallScreen("smartphone")

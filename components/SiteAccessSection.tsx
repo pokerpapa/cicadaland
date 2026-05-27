@@ -314,15 +314,7 @@ export function SiteAccessSection() {
     }
   }
 
- ORDER_KEY, order)
-      setOrderId(order)
-      setNotice(
-        "Оплата открыта в новой вкладке. Не закрывайте эту страницу. После оплаты вернитесь сюда и нажмите «Я оплатил — проверить»."
-      )
-
-      window.open(paymentUrl, "_blank", "noopener,noreferrer")
-    } catch (err) {
-      setError(err instanceof Error ? err.message : " async function checkPayment() {
+  async function checkPayment() {
     if (!webToken || !orderId) {
       setError("Заказ для проверки не найден.")
       return

@@ -2,8 +2,9 @@
 
 import { useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
-import { Zap, ChevronDown, Shield, Smartphone, RefreshCw } from "lucide-react"
+import { ChevronDown, RefreshCw, Shield, Smartphone, Zap } from "lucide-react"
 import { useTranslation } from "@/lib/i18n"
+import { scrollToBuy } from "@/lib/scrollToBuy"
 
 export function HeroVideoSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -93,7 +94,6 @@ export function HeroVideoSection() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Video Background */}
       <div className="absolute inset-0 z-0">
         <video
           autoPlay
@@ -106,20 +106,15 @@ export function HeroVideoSection() {
           <source src="/assets/header.mp4" type="video/mp4" />
         </video>
 
-        {/* Dark Overlay Gradient - Lightened to show more video */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#070B1A]/40 via-transparent to-[#070B1A]/80" />
       </div>
 
-      {/* Animated Particles */}
       <canvas ref={canvasRef} className="absolute inset-0 z-10 pointer-events-none" />
 
-      {/* Glow Effects */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#3B82F6]/10 rounded-full blur-[120px] z-0" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#A78BFA]/10 rounded-full blur-[120px] z-0" />
 
-      {/* Content */}
       <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20">
-        {/* Badge */}
         <div className="inline-flex items-center gap-3 px-4 py-2 sm:py-2.5 rounded-2xl sm:rounded-full bg-[#1F2A44]/40 border border-[#1F2A44]/50 mb-8 max-w-[95%] sm:max-w-none backdrop-blur-md hover:bg-[#1F2A44]/60 transition-colors cursor-default">
           <div className="shrink-0">
             <span className="relative flex h-2 w-1.5 sm:h-2 sm:w-2">
@@ -133,7 +128,6 @@ export function HeroVideoSection() {
           </span>
         </div>
 
-        {/* Headline */}
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[#E5E7EB] tracking-tight mb-8">
           <span className="block mb-2 text-balance leading-[1.1]">
             {t("hero.title1")}
@@ -144,17 +138,15 @@ export function HeroVideoSection() {
           </span>
         </h1>
 
-        {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
           <Button
-            asChild
+            type="button"
+            onClick={scrollToBuy}
             size="lg"
             className="w-full sm:w-auto bg-[#3B82F6] hover:bg-[#2563EB] text-white font-semibold px-8 py-7 text-lg rounded-2xl shadow-xl shadow-[#3B82F6]/25 hover:shadow-[#3B82F6]/40 transition-all hover:scale-[1.02] active:scale-95"
           >
-            <a href="#get-vpn">
-              <Zap className="w-5 h-5 mr-3" />
-              Получить VPN
-            </a>
+            <Zap className="w-5 h-5 mr-3" />
+            Получить VPN
           </Button>
 
           <Button
@@ -167,7 +159,6 @@ export function HeroVideoSection() {
           </Button>
         </div>
 
-        {/* Trust Chips */}
         <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 max-w-3xl mx-auto">
           {trustChips.map((chip, index) => (
             <div
@@ -182,7 +173,6 @@ export function HeroVideoSection() {
           ))}
         </div>
 
-        {/* Scroll Indicator */}
         <div className="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 animate-bounce-slow">
           <ChevronDown className="w-6 h-6 text-[#94A3B8] opacity-50" />
         </div>

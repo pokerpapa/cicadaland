@@ -302,14 +302,11 @@ export function SiteAccessSection() {
       const order = String(nextOrderId)
       localStorage.setItem(ORDER_KEY, order)
       setOrderId(order)
-      setNotice(
-        "Оплата открыта в новой вкладке. Не закрывайте эту страницу. После оплаты вернитесь сюда и нажмите «Я оплатил — проверить»."
-      )
+      setNotice("Сейчас откроется защищённая страница оплаты.")
 
-      window.open(paymentUrl, "_blank", "noopener,noreferrer")
+      window.location.href = paymentUrl
     } catch (err) {
       setError(err instanceof Error ? err.message : "Ошибка создания оплаты.")
-    } finally {
       setLoadingPayment(false)
     }
   }
@@ -477,7 +474,9 @@ export function SiteAccessSection() {
                   <CreditCard className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-semibold text-[#E5E7EB]">2. Оплатите 490₽ один раз</p>
+                  <p className="font-semibold text-[#E5E7EB]">
+                    2. Оплатите 490₽ один раз
+                  </p>
                   <p className="mt-1 text-sm leading-6 text-[#94A3B8]">
                     Это единоразовая оплата. Не подписка и не ежемесячный платёж.
                     Откроется защищённая страница Platega.
@@ -490,7 +489,9 @@ export function SiteAccessSection() {
                   <ShieldCheck className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-semibold text-[#E5E7EB]">3. Подключите VPN навсегда</p>
+                  <p className="font-semibold text-[#E5E7EB]">
+                    3. Подключите VPN навсегда
+                  </p>
                   <p className="mt-1 text-sm leading-6 text-[#94A3B8]">
                     После оплаты вернитесь на сайт, проверьте оплату и добавьте
                     подписки в Happ или INCY.
@@ -616,9 +617,9 @@ export function SiteAccessSection() {
                   </p>
                   <ul className="mt-2 space-y-1 text-sm leading-6 text-yellow-100/85">
                     <li>1. Вы платите 490₽ один раз, не каждый месяц.</li>
-                    <li>2. Не закрывайте эту вкладку сайта.</li>
-                    <li>3. Оплата откроется в новой вкладке.</li>
-                    <li>4. После оплаты вернитесь сюда и нажмите проверку.</li>
+                    <li>2. Сейчас откроется защищённая страница оплаты.</li>
+                    <li>3. После оплаты вернитесь на сайт.</li>
+                    <li>4. Если доступ не появился сразу — нажмите проверку.</li>
                   </ul>
                 </div>
 
@@ -636,7 +637,7 @@ export function SiteAccessSection() {
                   ) : (
                     <>
                       <CreditCard className="h-5 w-5" />
-                      Оплатить 490₽ один раз
+                      Перейти к оплате 490₽
                     </>
                   )}
                 </Button>

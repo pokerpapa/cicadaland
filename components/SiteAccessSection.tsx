@@ -309,7 +309,15 @@ export function SiteAccessSection() {
     }
   }
 
-  async function checkPayment() {
+ ORDER_KEY, order)
+      setOrderId(order)
+      setNotice(
+        "Оплата открыта в новой вкладке. Не закрывайте эту страницу. После оплаты вернитесь сюда и нажмите «Я оплатил — проверить»."
+      )
+
+      window.open(paymentUrl, "_blank", "noopener,noreferrer")
+    } catch (err) {
+      setError(err instanceof Error ? err.message : " async function checkPayment() {
     if (!webToken || !orderId) {
       setError("Заказ для проверки не найден.")
       return
@@ -472,10 +480,10 @@ export function SiteAccessSection() {
                   <CreditCard className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-semibold text-[#E5E7EB]">2. Оплатите 490₽</p>
+                  <p className="font-semibold text-[#E5E7EB]">2. Оплатите 490₽ один раз</p>
                   <p className="mt-1 text-sm leading-6 text-[#94A3B8]">
-                    Нажмите кнопку оплаты. Откроется защищённая страница Platega.
-                    Не закрывайте эту вкладку сайта.
+                    Это единоразовая оплата. Не подписка и не ежемесячный платёж.
+                    Откроется защищённая страница Platega.
                   </p>
                 </div>
               </div>
@@ -485,7 +493,7 @@ export function SiteAccessSection() {
                   <ShieldCheck className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-semibold text-[#E5E7EB]">3. Подключите VPN</p>
+                  <p className="font-semibold text-[#E5E7EB]">3. Подключите VPN навсегда</p>
                   <p className="mt-1 text-sm leading-6 text-[#94A3B8]">
                     После оплаты вернитесь на сайт, проверьте оплату и добавьте
                     подписки в Happ или INCY.
@@ -531,7 +539,7 @@ export function SiteAccessSection() {
                   Купить VPN за 490₽ навсегда
                 </h3>
                 <p className="mt-2 text-sm text-[#94A3B8]">
-                  Введите email, оплатите и получите ссылки прямо здесь. Это единоразовая оплата.
+                  Это единоразовая оплата. Не подписка и не ежемесячный платёж.
                 </p>
               </div>
 
@@ -578,14 +586,14 @@ export function SiteAccessSection() {
                   ) : (
                     <>
                       <CreditCard className="h-5 w-5" />
-                      Продолжить к оплате 490₽ навсегда
+                      Продолжить — 490₽ навсегда
                     </>
                   )}
                 </Button>
 
                 <p className="rounded-2xl border border-[#22C55E]/20 bg-[#22C55E]/10 p-4 text-sm leading-6 text-[#D1FAE5]">
-                  После оплаты ссылки для подключения появятся здесь автоматически.
-                  Не закрывайте эту страницу.
+                  Вы платите 490₽ один раз и получаете доступ навсегда.
+                  После оплаты ссылки появятся здесь автоматически.
                 </p>
               </div>
             )}
@@ -610,10 +618,10 @@ export function SiteAccessSection() {
                     Важно перед оплатой
                   </p>
                   <ul className="mt-2 space-y-1 text-sm leading-6 text-yellow-100/85">
-                    <li>1. Не закрывайте эту вкладку сайта.</li>
-                    <li>2. Оплата откроется в новой вкладке.</li>
-                    <li>3. После оплаты вернитесь сюда.</li>
-                    <li>4. Нажмите кнопку «Я оплатил — проверить».</li>
+                    <li>1. Вы платите 490₽ один раз, не каждый месяц.</li>
+                    <li>2. Не закрывайте эту вкладку сайта.</li>
+                    <li>3. Оплата откроется в новой вкладке.</li>
+                    <li>4. После оплаты вернитесь сюда и нажмите проверку.</li>
                   </ul>
                 </div>
 
@@ -631,7 +639,7 @@ export function SiteAccessSection() {
                   ) : (
                     <>
                       <CreditCard className="h-5 w-5" />
-                      Единоразово оплатить 490₽ картой / СБП
+                      Оплатить 490₽ один раз
                     </>
                   )}
                 </Button>
@@ -682,7 +690,7 @@ export function SiteAccessSection() {
                     <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#22C55E]" />
                     <div>
                       <p className="font-semibold text-[#E5E7EB]">
-                        Доступ активирован
+                        Доступ активирован навсегда
                       </p>
                       <p className="mt-1 text-sm leading-6 text-[#94A3B8]">
                         Ниже появились две подписки. Нажмите Happ или INCY возле GLOBAL,

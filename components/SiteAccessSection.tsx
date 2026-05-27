@@ -528,10 +528,10 @@ export function SiteAccessSection() {
             <div className="mb-6 flex items-center justify-between gap-4">
               <div>
                 <h3 className="text-2xl font-bold text-[#E5E7EB]">
-                  Купить VPN за 490₽
+                  Купить VPN за 490₽ навсегда
                 </h3>
                 <p className="mt-2 text-sm text-[#94A3B8]">
-                  Введите email, оплатите и получите ссылки прямо здесь.
+                  Введите email, оплатите и получите ссылки прямо здесь. Это единоразовая оплата.
                 </p>
               </div>
 
@@ -578,7 +578,7 @@ export function SiteAccessSection() {
                   ) : (
                     <>
                       <CreditCard className="h-5 w-5" />
-                      Продолжить к оплате 490₽
+                      Продолжить к оплате 490₽ навсегда
                     </>
                   )}
                 </Button>
@@ -631,7 +631,7 @@ export function SiteAccessSection() {
                   ) : (
                     <>
                       <CreditCard className="h-5 w-5" />
-                      Оплатить 490₽ картой / СБП
+                      Единоразово оплатить 490₽ картой / СБП
                     </>
                   )}
                 </Button>

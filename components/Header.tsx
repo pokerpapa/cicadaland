@@ -1,10 +1,11 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Zap, Menu, X, Languages } from "lucide-react"
-import { useTranslation } from "@/lib/i18n"
+import { useEffect, useState } from "react"
 import Image from "next/image"
+import { Button } from "@/components/ui/button"
+import { Languages, Menu, X, Zap } from "lucide-react"
+import { useTranslation } from "@/lib/i18n"
+import { scrollToBuy } from "@/lib/scrollToBuy"
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -34,6 +35,14 @@ export function Header() {
     setLanguage(language === "en" ? "ru" : "en")
   }
 
+  const handleBuyClick = () => {
+    setIsMobileMenuOpen(false)
+
+    window.setTimeout(() => {
+      scrollToBuy()
+    }, 80)
+  }
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -44,10 +53,10 @@ export function Header() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
           <a href="#" className="flex items-center gap-3 group">
             <div className="relative">
               <div className="absolute inset-0 bg-[#3B82F6]/20 blur-lg rounded-full group-hover:bg-[#3B82F6]/30 transition-colors" />
+
               <div className="relative w-10 h-10 overflow-hidden rounded-xl border border-[#1F2A44] bg-[#0B1026]">
                 <Image
                   src="/logo.svg"
@@ -62,7 +71,6 @@ export function Header() {
               PRO<span className="text-[#3B82F6]">VPN</span>
             </span>
 
-            {/* Country Flags - Global Presence */}
             <div className="flex items-center gap-1.5 sm:gap-2 ml-2 sm:ml-4 opacity-80 bg-[#1F2A44]/30 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full border border-[#1F2A44]/50">
               {countryFlags.map((code, index) => (
                 <div
@@ -87,7 +95,6 @@ export function Header() {
             </div>
           </a>
 
-          {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
               <a
@@ -100,7 +107,6 @@ export function Header() {
             ))}
           </nav>
 
-          {/* CTA & Lang Switcher */}
           <div className="hidden md:flex items-center gap-4">
             <button
               onClick={toggleLanguage}
@@ -111,17 +117,15 @@ export function Header() {
             </button>
 
             <Button
-              asChild
+              type="button"
+              onClick={scrollToBuy}
               className="bg-[#3B82F6] hover:bg-[#2563EB] text-white font-medium px-5 py-2 rounded-xl shadow-lg shadow-[#3B82F6]/25 hover:shadow-[#3B82F6]/40 transition-all"
             >
-              <a href="#get-vpn">
-                <Zap className="w-4 h-4 mr-2" />
-                Получить VPN
-              </a>
+              <Zap className="w-4 h-4 mr-2" />
+              Получить VPN
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
           <div className="flex items-center gap-2 md:hidden">
             <button
               onClick={toggleLanguage}
@@ -145,7 +149,6 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="md:hidden bg-[#0B1026]/98 backdrop-blur-2xl border-b border-[#1F2A44] animate-in slide-in-from-top duration-300">
           <nav className="flex flex-col px-6 py-8 gap-2">
@@ -163,13 +166,12 @@ export function Header() {
             <div className="h-px bg-[#1F2A44] my-4 mx-4" />
 
             <Button
-              asChild
+              type="button"
+              onClick={handleBuyClick}
               className="bg-[#3B82F6] hover:bg-[#2563EB] text-white font-semibold rounded-2xl h-14 text-lg shadow-lg shadow-[#3B82F6]/20 transition-all active:scale-95"
             >
-              <a href="#get-vpn" onClick={() => setIsMobileMenuOpen(false)}>
-                <Zap className="w-5 h-5 mr-3" />
-                Получить VPN
-              </a>
+              <Zap className="w-5 h-5 mr-3" />
+              Получить VPN
             </Button>
           </nav>
         </div>

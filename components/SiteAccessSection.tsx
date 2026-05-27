@@ -241,7 +241,11 @@ export function SiteAccessSection() {
       localStorage.setItem(TOKEN_KEY, token)
       setWebToken(token)
       setUser(json.user || { email: cleanEmail, access_status: "none" })
-      setNotice("Кабинет создан. Теперь можно перейти к оплате.")
+      setNotice("Отлично. Теперь нажмите зелёную кнопку оплаты ниже.")
+
+      window.setTimeout(() => {
+        document.getElementById("site-pay-button")?.focus()
+      }, 120)
     } catch (err) {
       setError(err instanceof Error ? err.message : "Ошибка соединения с сервером.")
     } finally {
@@ -412,15 +416,19 @@ export function SiteAccessSection() {
     setLinks([])
     setNotice(null)
     setError(null)
+
+    window.setTimeout(() => {
+      document.getElementById("site-email-input")?.focus()
+    }, 80)
   }
 
   return (
-    <section id="get-vpn" className="relative overflow-hidden py-24 sm:py-32">
+    <section className="relative overflow-hidden py-16 sm:py-24">
       <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-[#3B82F6]/10 blur-[160px]" />
       <div className="absolute bottom-0 right-0 h-[420px] w-[420px] rounded-full bg-[#A78BFA]/10 blur-[150px]" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto mb-12 max-w-3xl text-center">
+        <div className="mx-auto mb-10 max-w-3xl text-center">
           <span className="mb-6 inline-flex rounded-full border border-[#22C55E]/20 bg-[#22C55E]/10 px-4 py-2 text-sm font-medium text-[#22C55E]">
             Быстрое подключение за 3 минуты
           </span>
@@ -434,9 +442,8 @@ export function SiteAccessSection() {
           </h2>
 
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#94A3B8]">
-            Сначала скачайте приложение Happ или INCY, затем оплатите доступ.
-            После оплаты вернитесь на эту страницу, нажмите «Проверить оплату»
-            и добавьте две подписки: GLOBAL и STEADY.
+            Введите email, оплатите доступ и получите ссылки для подключения.
+            Всё происходит на этой странице.
           </p>
         </div>
 
@@ -454,7 +461,8 @@ export function SiteAccessSection() {
                 <div>
                   <p className="font-semibold text-[#E5E7EB]">1. Введите email</p>
                   <p className="mt-1 text-sm leading-6 text-[#94A3B8]">
-                    Email нужен для входа в web-кабинет. После оплаты вы сможете открыть доступ с любого устройства, просто введя этот же email.
+                    Email нужен для входа в кабинет. Потом вы сможете открыть доступ
+                    с другого устройства, просто введя тот же email.
                   </p>
                 </div>
               </div>
@@ -464,10 +472,10 @@ export function SiteAccessSection() {
                   <CreditCard className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-semibold text-[#E5E7EB]">2. Оплатите картой / СБП</p>
+                  <p className="font-semibold text-[#E5E7EB]">2. Оплатите 490₽</p>
                   <p className="mt-1 text-sm leading-6 text-[#94A3B8]">
                     Нажмите кнопку оплаты. Откроется защищённая страница Platega.
-                    Важно: не закрывайте эту вкладку сайта — после оплаты вернитесь сюда.
+                    Не закрывайте эту вкладку сайта.
                   </p>
                 </div>
               </div>
@@ -477,10 +485,10 @@ export function SiteAccessSection() {
                   <ShieldCheck className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-semibold text-[#E5E7EB]">3. Добавьте подписки</p>
+                  <p className="font-semibold text-[#E5E7EB]">3. Подключите VPN</p>
                   <p className="mt-1 text-sm leading-6 text-[#94A3B8]">
-                    После подтверждения оплаты нажмите Happ или INCY возле каждой ссылки.
-                    Добавьте сначала GLOBAL, затем STEADY.
+                    После оплаты вернитесь на сайт, проверьте оплату и добавьте
+                    подписки в Happ или INCY.
                   </p>
                 </div>
               </div>
@@ -513,14 +521,17 @@ export function SiteAccessSection() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-[#1F2A44] bg-[#0B1026] p-6 shadow-2xl sm:p-8">
+          <div
+            id="get-vpn"
+            className="scroll-mt-28 rounded-3xl border border-[#22C55E]/30 bg-[#0B1026] p-6 shadow-2xl shadow-[#22C55E]/10 transition-all duration-300 sm:p-8"
+          >
             <div className="mb-6 flex items-center justify-between gap-4">
               <div>
                 <h3 className="text-2xl font-bold text-[#E5E7EB]">
-                  Web-доступ PROVPN
+                  Купить VPN за 490₽
                 </h3>
                 <p className="mt-2 text-sm text-[#94A3B8]">
-                  Пожизненный доступ после единоразовой оплаты.
+                  Введите email, оплатите и получите ссылки прямо здесь.
                 </p>
               </div>
 
@@ -535,13 +546,21 @@ export function SiteAccessSection() {
               <div className="space-y-4">
                 <label className="block">
                   <span className="mb-2 block text-sm font-medium text-[#E5E7EB]">
-                    Email для web-доступа
+                    Ваш email для получения VPN
                   </span>
                   <input
+                    id="site-email-input"
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter") {
+                        createSession()
+                      }
+                    }}
                     type="email"
-                    placeholder="you@example.com"
+                    inputMode="email"
+                    autoComplete="email"
+                    placeholder="email@example.com"
                     className="h-14 w-full rounded-2xl border border-[#1F2A44] bg-[#070B1A] px-4 text-[#E5E7EB] outline-none transition placeholder:text-[#94A3B8]/50 focus:border-[#3B82F6]"
                   />
                 </label>
@@ -558,11 +577,16 @@ export function SiteAccessSection() {
                     </>
                   ) : (
                     <>
-                      <Mail className="h-5 w-5" />
-                      Продолжить
+                      <CreditCard className="h-5 w-5" />
+                      Продолжить к оплате 490₽
                     </>
                   )}
                 </Button>
+
+                <p className="rounded-2xl border border-[#22C55E]/20 bg-[#22C55E]/10 p-4 text-sm leading-6 text-[#D1FAE5]">
+                  После оплаты ссылки для подключения появятся здесь автоматически.
+                  Не закрывайте эту страницу.
+                </p>
               </div>
             )}
 
@@ -594,9 +618,10 @@ export function SiteAccessSection() {
                 </div>
 
                 <Button
+                  id="site-pay-button"
                   onClick={createPayment}
                   disabled={loadingPayment}
-                  className="h-14 w-full rounded-2xl bg-[#22C55E] text-base font-semibold text-white hover:bg-[#16A34A]"
+                  className="h-14 w-full rounded-2xl bg-[#22C55E] text-base font-semibold text-white hover:bg-[#16A34A] focus:ring-4 focus:ring-[#22C55E]/30"
                 >
                   {loadingPayment ? (
                     <>
@@ -606,7 +631,7 @@ export function SiteAccessSection() {
                   ) : (
                     <>
                       <CreditCard className="h-5 w-5" />
-                      Оплатить картой / СБП
+                      Оплатить 490₽ картой / СБП
                     </>
                   )}
                 </Button>

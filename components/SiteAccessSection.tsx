@@ -74,6 +74,11 @@ const appDownloads = [
     subtitle: "Альтернативное приложение",
     url: "https://play.google.com/store/apps/details?id=llc.itdev.incy",
   },
+  {
+    title: "🛡 Karing для iPhone",
+    subtitle: "Продвинутый вариант",
+    url: "https://apps.apple.com/us/app/karing/id6472431552",
+  },
 ]
 
 function getAuthHeaders(token: string) {

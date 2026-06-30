@@ -108,6 +108,7 @@ export function AppsSection() {
                   muted
                   loop
                   playsInline
+                  poster="/assets/welcome.jpg"
                   className="w-full h-full object-cover"
                 >
                   <source src={activePlatform.videoPath} type="video/mp4" />

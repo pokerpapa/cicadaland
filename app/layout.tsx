@@ -1,23 +1,80 @@
 import React from "react"
-import type { Metadata, Viewport } from 'next'
-import { Inter } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
+import type { Metadata, Viewport } from "next"
+import { Inter } from "next/font/google"
+import { Analytics } from "@vercel/analytics/next"
 import { LanguageProvider } from "@/lib/i18n"
-import './globals.css'
+import "./globals.css"
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin", "cyrillic"] })
+
+const title = "PROVPN — стабильный VPN для iPhone, Android и компьютера"
+const description =
+  "PROVPN — VPN-сервис с единоразовой оплатой 490₽ и доступом навсегда. Подключение через Happ, INCY, Karing, GLOBAL и STEADY режимы."
 
 export const metadata: Metadata = {
-  title: 'PROVPN — Fast & Stable VPN via Telegram',
-  description: 'Get 5 fresh VLESS keys from our Telegram bot. One tap to start, quick import to your app, and you\'re online with a secure route in minutes.',
-  keywords: ['VPN', 'VLESS', 'Telegram', 'Privacy', 'Security', 'Fast VPN'],
-  icons: {
-    icon: [
+  metadataBase: new URL("https://www.provpn.bet"),
+  title: {
+    default: title,
+    template: "%s | PROVPN",
+  },
+  description,
+  keywords: [
+    "PROVPN",
+    "VPN",
+    "VPN для iPhone",
+    "VPN для Android",
+    "VPN для компьютера",
+    "Happ VPN",
+    "Karing VPN",
+    "GLOBAL MODE",
+    "STEADY MODE",
+  ],
+  authors: [{ name: "PROVPN", url: "https://www.provpn.bet" }],
+  creator: "PROVPN",
+  publisher: "PROVPN",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "ru_RU",
+    url: "/",
+    siteName: "PROVPN",
+    title,
+    description,
+    images: [
       {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
+        url: "/assets/welcome.jpg",
+        width: 1024,
+        height: 1024,
+        alt: "PROVPN — VPN для iPhone, Android и компьютера",
       },
     ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: ["/assets/welcome.jpg"],
+  },
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icon-light-32x32.png", media: "(prefers-color-scheme: light)" },
+      { url: "/icon-dark-32x32.png", media: "(prefers-color-scheme: dark)" },
+    ],
+    apple: "/apple-icon.png",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
 }
 
@@ -33,7 +90,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="ru" className="scroll-smooth">
       <body className={`${inter.className} antialiased bg-background text-foreground`}>
         <LanguageProvider>
           {children}

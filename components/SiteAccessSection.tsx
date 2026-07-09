@@ -642,6 +642,28 @@ export function SiteAccessSection() {
                   )}
                 </Button>
 
+                <p className="text-center text-xs leading-5 text-[#94A3B8]">
+                  Нажимая «Перейти к оплате», вы соглашаетесь с{" "}
+                  <a
+                    href="https://telegra.ph/Polzovatelskoe-soglashenie-04-01-19"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#60A5FA] transition hover:text-[#93C5FD]"
+                  >
+                    Пользовательским соглашением
+                  </a>{" "}
+                  и{" "}
+                  <a
+                    href="https://telegra.ph/Politika-konfidencialnosti-06-21-31"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#60A5FA] transition hover:text-[#93C5FD]"
+                  >
+                    Политикой конфиденциальности
+                  </a>
+                  .
+                </p>
+
                 <a
                   href="https://t.me/provpnsup_bot"
                   target="_blank"

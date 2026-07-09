@@ -13,6 +13,11 @@ const seoLinks = [
   ["/happ-vpn", "Happ VPN"],
 ] as const
 
+const legalLinks = [
+  ["https://telegra.ph/Politika-konfidencialnosti-06-21-31", "Политика конфиденциальности"],
+  ["https://telegra.ph/Polzovatelskoe-soglashenie-04-01-19", "Пользовательское соглашение"],
+] as const
+
 export function Footer() {
   const { t } = useTranslation()
 
@@ -36,6 +41,17 @@ export function Footer() {
               <Link key={href} href={href} className="text-[#94A3B8] transition hover:text-[#60A5FA]">
                 {label}
               </Link>
+            ))}
+            {legalLinks.map(([href, label]) => (
+              <a
+                key={href}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#94A3B8] transition hover:text-[#60A5FA]"
+              >
+                {label}
+              </a>
             ))}
             <a
               href="https://t.me/provpnsup_bot"

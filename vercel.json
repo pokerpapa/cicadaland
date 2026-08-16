@@ -3,19 +3,19 @@
   "rewrites": [
     {
       "source": "/sub/:path*",
-      "destination": "http://38.180.153.27:8091/sub/:path*"
+      "destination": "http://5.35.46.87:8091/sub/:path*"
     },
     {
       "source": "/api/webapp/:path*",
-      "destination": "http://38.180.153.27:8091/api/webapp/:path*"
+      "destination": "http://5.35.46.87:8091/api/webapp/:path*"
     },
     {
       "source": "/api/platega/:path*",
-      "destination": "http://38.180.153.27:8091/api/platega/:path*"
+      "destination": "http://5.35.46.87:8091/api/platega/:path*"
     },
     {
       "source": "/api/site/:path*",
-      "destination": "http://38.180.153.27:8091/api/site/:path*"
+      "destination": "http://5.35.46.87:8091/api/site/:path*"
     }
   ]
 }
